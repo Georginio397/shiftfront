@@ -358,7 +358,7 @@ function toggleContract() {
 
 {/* WALL CLOCK RIGHT SIDE */}
 <div className="wall-clock">
-  <img src="/clock.gif" alt="Clock" className="clock-img" />
+  <img src="/Clock.gif" alt="Clock" className="clock-img" />
 </div>
 
 
