@@ -6,7 +6,8 @@ export default function AuthModal({ onClose, onSuccess }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const API_BASE = "http://192.168.100.14:5000";
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
 
 
   function generatePass() {
