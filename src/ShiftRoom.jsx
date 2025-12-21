@@ -366,7 +366,7 @@ function toggleContract() {
       {/* PARALLAX SCENE */}
       <div className="scene">
         <ParallaxLayerVideo
-          src="/Back.webm"
+          src="/back.webm"
           intensityX={80}
           intensityY={40}
           invertX={false}
