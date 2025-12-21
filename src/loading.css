@@ -1,0 +1,115 @@
+.loading-circle-container {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Pixelify Sans", Arial, sans-serif;
+  color: white;
+  animation: fadeIn 0.5s ease;
+}
+
+.loading-ring {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 25px;
+}
+
+.loading-percent {
+  position: absolute;
+  top: 5%;
+  left: 51%;
+  transform: translate(-50%, -50%);
+  font-size: 38px;
+  font-weight: bold;
+  color: #fff;
+  pointer-events: none;
+}
+
+
+
+.dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #333;
+  border-radius: 50%;
+
+  left: 50%;
+  top: 50%;
+
+  /* 🔥 Asta ține cercul perfect simetric */
+  transform-origin: 0 -90px; 
+  transform: rotate(calc(var(--i) * 9deg));
+}
+
+
+
+/* DOT ACTIV */
+.dot.active {
+  background: #ffcc00;
+  box-shadow: 0 0 10px #ffcc00;
+}
+
+/* GENEREAZĂ POZIȚIILE DOT-URILOR */
+.loading-ring .dot:nth-child(n) {
+  --i: calc((var(--n) * 1deg));
+}
+
+.loading-ring .dot:nth-child(1)  { --i: 0 }
+.loading-ring .dot:nth-child(2)  { --i: 9 }
+.loading-ring .dot:nth-child(3)  { --i: 18 }
+.loading-ring .dot:nth-child(4)  { --i: 27 }
+.loading-ring .dot:nth-child(5)  { --i: 36 }
+.loading-ring .dot:nth-child(6)  { --i: 45 }
+.loading-ring .dot:nth-child(7)  { --i: 54 }
+.loading-ring .dot:nth-child(8)  { --i: 63 }
+.loading-ring .dot:nth-child(9)  { --i: 72 }
+.loading-ring .dot:nth-child(10) { --i: 81 }
+.loading-ring .dot:nth-child(11) { --i: 90 }
+.loading-ring .dot:nth-child(12) { --i: 99 }
+.loading-ring .dot:nth-child(13) { --i: 108 }
+.loading-ring .dot:nth-child(14) { --i: 117 }
+.loading-ring .dot:nth-child(15) { --i: 126 }
+.loading-ring .dot:nth-child(16) { --i: 135 }
+.loading-ring .dot:nth-child(17) { --i: 144 }
+.loading-ring .dot:nth-child(18) { --i: 153 }
+.loading-ring .dot:nth-child(19) { --i: 162 }
+.loading-ring .dot:nth-child(20) { --i: 171 }
+.loading-ring .dot:nth-child(21) { --i: 180 }
+.loading-ring .dot:nth-child(22) { --i: 189 }
+.loading-ring .dot:nth-child(23) { --i: 198 }
+.loading-ring .dot:nth-child(24) { --i: 207 }
+.loading-ring .dot:nth-child(25) { --i: 216 }
+.loading-ring .dot:nth-child(26) { --i: 225 }
+.loading-ring .dot:nth-child(27) { --i: 234 }
+.loading-ring .dot:nth-child(28) { --i: 243 }
+.loading-ring .dot:nth-child(29) { --i: 252 }
+.loading-ring .dot:nth-child(30) { --i: 261 }
+.loading-ring .dot:nth-child(31) { --i: 270 }
+.loading-ring .dot:nth-child(32) { --i: 279 }
+.loading-ring .dot:nth-child(33) { --i: 288 }
+.loading-ring .dot:nth-child(34) { --i: 297 }
+.loading-ring .dot:nth-child(35) { --i: 306 }
+.loading-ring .dot:nth-child(36) { --i: 315 }
+.loading-ring .dot:nth-child(37) { --i: 324 }
+.loading-ring .dot:nth-child(38) { --i: 333 }
+.loading-ring .dot:nth-child(39) { --i: 342 }
+.loading-ring .dot:nth-child(40) { --i: 351 }
+
+
+
+/* SUBTEXT */
+.loading-text {
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+/* FADE ANIMATION */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

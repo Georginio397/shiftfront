@@ -1,0 +1,691 @@
+/* ============================= */
+/*        SCENE STRUCTURE        */
+/* ============================= */
+
+/* FREEZE DOAR BACKGROUND */
+body.game-active .scene,
+body.game-active .scene * {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+/* opțional cinematic */
+body.game-active .scene {
+  filter: blur(2px) brightness(0.6);
+}
+
+/* jocul rămâne activ */
+.modal-overlay,
+.modal-content {
+  pointer-events: auto;
+}
+
+
+.scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.scene-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ============================= */
+/*          TOP MENU             */
+/* ============================= */
+.top-menu {
+  position: absolute;
+  top: -3vh;
+  left: 51%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: .4vw;
+  z-index: 40;
+}
+
+.menu-item {
+  height: 120px;
+  cursor: pointer;
+  transition: 0.15s;
+  filter: brightness(0.9);
+}
+
+.menu-item:hover {
+  transform: translateY(-4px) scale(1.03);
+  filter: brightness(1.1);
+}
+
+/* ============================= */
+/*     PARALLAX LAYERS & WALL    */
+/* ============================= */
+.parallax-layer,
+.layer-mid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.parallax-layer {
+  object-fit: cover;
+  z-index: 50;
+}
+
+.layer-mid {
+  object-fit: cover;
+}
+
+
+
+/* ============================= */
+/*     RIGHT WALL POSTER FIXED   */
+/* ============================= */
+
+.poster-container {
+  position: absolute;
+  right: 2.5%;
+  top: 32%;
+  width: 20vw;
+  aspect-ratio: 1/1.25;
+  cursor: pointer;
+  z-index: 1;
+
+  transform-origin: top left;
+}
+
+.poster-inner {
+  width: 100%;
+  height: 100%;
+  transform-origin: top left;
+  transform: none;
+  transition: transform 0.75s cubic-bezier(.25, .9, .30, 1);
+}
+
+
+
+.poster-container:hover .poster-inner {
+  animation: naturalLean 0.55s cubic-bezier(.25, 1.05, .40, 1);
+  transform: translateY(26px) rotateZ(22deg) rotateX(7deg);
+}
+
+
+
+
+
+.poster-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+}
+
+@keyframes naturalLean {
+  0% {
+    transform: translateY(0px) rotateZ(0deg) rotateX(0deg);
+  }
+
+  /* căderea principală — rapidă dar controlată */
+  45% {
+    transform: translateY(28px) rotateZ(25deg) rotateX(9deg);
+  }
+
+  /* bounce lung & lent */
+  70% {
+    transform: translateY(22px) rotateZ(19deg) rotateX(6deg);
+  }
+
+  85% {
+    transform: translateY(26px) rotateZ(22deg) rotateX(7deg);
+  }
+
+  /* stabilizare finală — realistă */
+  100% {
+    transform: translateY(24px) rotateZ(21deg) rotateX(6deg);
+  }
+}
+
+
+
+@keyframes wobbleDrop {
+  0%   { transform: translateY(0) rotateZ(0deg) rotateX(0deg); }
+  40%  { transform: translateY(16px) rotateZ(18deg) rotateX(6deg); }
+  65%  { transform: translateY(10px) rotateZ(13deg) rotateX(3deg); }
+  85%  { transform: translateY(14px) rotateZ(17deg) rotateX(5deg); }
+  100% { transform: translateY(12px) rotateZ(15deg) rotateX(4deg); }
+}
+
+
+/* Instant swap */
+.poster-default { display: block; }
+.poster-hover   { display: none; }
+
+.poster-container:hover .poster-default {
+  display: none;
+}
+
+.poster-container:hover .poster-hover {
+  display: block;
+}
+
+
+
+/* ============================= */
+/*        USER BADGE UI          */
+/* ============================= */
+.name-badge {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: rgba(0,0,0,0.55);
+  padding: 10px 18px;
+  border-radius: 15px;
+  font-size: 18px;
+  color: white;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  border: 3px solid rgb(237 160 19);
+}
+
+.name-badge span {
+  font-weight: bold;
+  color: #f9d567;
+}
+
+.logout-btn {
+  margin-left: 10px;
+  font-size: 13px;
+  padding: 4px 8px;
+  background: #ff9900;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #ffb347;
+  transform: scale(1.08);
+  box-shadow: 0 0 10px rgba(255,165,0,0.7);
+}
+
+/* ============================= */
+/*      VIDEO PARALLAX LAYER     */
+/* ============================= */
+.parallax-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ======================================= */
+/*      LEADERBOARD FRAME + CONTENT        */
+/* ======================================= */
+
+.lb-frame {
+  position: absolute;
+  top: 32%;
+  left: 1.2%;
+  width: 355px;
+  aspect-ratio: 1 / 1;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.lb-frame-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.lb-content {
+  position: absolute;
+  top: 17%;
+  left: 11%;
+  width: 78%;
+  height: 66%;
+
+  display: flex;
+  flex-direction: column;
+  color: white;
+
+  pointer-events: auto;
+}
+
+.lb-content table,
+.lb-content tr,
+.lb-content td {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.lb-content td {
+  padding: 3px 0;
+  font-size: 14px;
+}
+
+.menu-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+
+
+.menu-video:hover {
+  transform: translateY(-4px) scale(1.05);
+  filter: brightness(1.15);
+}
+
+.tv-screen {
+  position: relative;
+  width: 19vw;
+  height: auto;
+  overflow: hidden;
+  aspect-ratio: 360 / 437;
+  border-radius: 1vw;
+  cursor: pointer;
+
+  transform: translateY(0) scale(1);
+  transform-origin: center;
+  
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tv-screen:hover {
+  transform: translateY(-6px) scale(1.03);
+  filter: brightness(1.12);
+}
+
+.tv-screen:hover .menu-video {
+  filter: brightness(1.15);
+}
+
+
+.tv-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  transition: opacity 0.35s ease; /* smooth AF */
+}
+.tv-video.hover {
+  opacity: 0;
+}
+
+.tv-screen:hover .tv-video.hover {
+  opacity: 1;
+}
+
+.tv-screen:hover .tv-video.idle {
+  opacity: 0;
+}
+.tv-video.hidden {
+  opacity: 0;
+}
+
+.tv-video.visible {
+  opacity: 1;
+}
+
+
+
+.shifter-gif {
+  position: absolute;
+  bottom: 5vh;
+  left: 55%;
+  transform: translateX(-50%);
+  width: 28vw;
+  max-width: 640px;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 45;
+}
+
+.sound-toggle {
+  position: fixed;
+  bottom: 40px;
+  right: 25px;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.sound-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ============================= */
+/*        SECURITY CAMERA        */
+/* ============================= */
+
+/* containerul */
+.security-camera {
+  position: absolute;
+  top: 1%;
+  left: -1%;
+  z-index: 300;
+  pointer-events: none; /* camera nu blochează click-urile */
+}
+
+/* GIF-ul real */
+.cam-frame {
+  width: 12vw;   /* schimbă aici cât vrei */
+  max-width: 180px;
+  height: auto !important;
+  display: block;
+  max-width: none !important;
+  max-height: none !important;
+  pointer-events: none;
+}
+
+/* WALL CLOCK (right side above the community frame) */
+.wall-clock {
+  position: absolute;
+  right: 4%;      /* ajustezi cât vrei */
+  top: 10%;       /* poziția verticală */
+  z-index: 30;    /* peste wall + poster */
+  pointer-events: none; /* să nu blocheze clickurile posterului */
+}
+
+/* clock image */
+.clock-img {
+  width: 9vw;    /* ajustezi mărimea */
+  max-width: 200px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.3))
+          drop-shadow(0 4px 2px rgba(0,0,0,0.6));
+}
+
+/* ===== MOBILE ROTATE OVERLAY ===== */
+.rotate-warning {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  color: white;
+  z-index: 9999;
+  display: none; /* pornit doar pe mobil */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  font-size: 24px;
+  font-family: "PixelifySans";
+}
+
+.rotate-warning img {
+  width: 150px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+/* Se afișează automat când device-ul e în portrait */
+@media screen and (orientation: portrait) and (max-width: 900px) {
+  .rotate-warning {
+    display: flex;
+  }
+}
+
+/* ======================= */
+/*   ROTATING ARROW CSS    */
+/* ======================= */
+
+.rotate-arrow {
+  width: 80px;
+  height: 80px;
+  border: 6px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  margin: 0 auto 20px auto;
+  animation: spinArrow 1.2s linear infinite;
+}
+
+@keyframes spinArrow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Mică săgeată în interior */
+.rotate-arrow::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 12px solid white;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  transform: rotate(45deg);
+  top: 50%;
+  left: 50%;
+  translate: -10px -10px;
+}
+
+/* ========================= */
+/*  CONTRACT BAR (BOTTOM)    */
+/* ========================= */
+
+.contract-bar {
+  position: fixed;
+  bottom: -120px;       /* ascuns implicit */
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  border-top: 2px solid rgba(255,255,255,0.25);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+}
+
+.contract-bar.show {
+  bottom: 0; /* se ridică */
+}
+
+.contract-content {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.contract-label {
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.contract-value {
+  display: block;
+  margin-top: 6px;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* ========================= */
+/*     ARROW TOGGLE          */
+/* ========================= */
+
+/* ========================= */
+/*     ARROW TOGGLE          */
+/* ========================= */
+
+.contract-arrow {
+  position: fixed;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  z-index: 2000;
+
+  animation: arrowFloat 2.2s ease-in-out infinite;
+}
+
+@keyframes arrowFloat {
+  0%   { transform: translateX(-50%) translateY(0px); }
+  50%  { transform: translateX(-50%) translateY(-10px); }
+  100% { transform: translateX(-50%) translateY(0px); }
+}
+
+.arrow-img {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.contract-panel {
+  position: fixed;
+  bottom: -220px;
+  left: 0;
+  width: 100%;
+  height: 220px;
+  background: rgba(15, 15, 15, 0.95);
+  border-top: 3px solid #ffcc00;
+  backdrop-filter: blur(6px);
+
+  z-index: 1500;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 25px;
+
+  transition: bottom 0.40s cubic-bezier(.25, .9, .25, 1);
+}
+
+.contract-panel.open {
+  bottom: 0;
+}
+
+.contract-title {
+  color: #ffcc00;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.contract-value {
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  user-select: all;
+}
+
+.copied-popup {
+  margin-top: 14px;
+  background: #00ff88;
+  padding: 7px 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  color: #000;
+  animation: fadeCopy 1.2s ease forwards;
+}
+
+.contract-arrow.hidden {
+  display: none !important;
+}
+
+
+@keyframes fadeCopy {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+.contract-close {
+  margin-top: auto;
+  margin-bottom: 18px;
+  padding: 10px 28px;
+  background: #ffcc00;
+  color: #000;
+  border-radius: 12px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.contract-close:hover {
+  transform: scale(1.08);
+  background: #ffe27c;
+}
+
+/* Arrow up (default) */
+.contract-arrow.up .arrow-img {
+  transform: rotate(0deg);
+  transition: transform 0.35s ease;
+}
+
+/* Arrow down when panel is open */
+.contract-arrow.down .arrow-img {
+  transform: rotate(180deg);
+  transition: transform 0.35s ease;
+}
+
+
+
+
+@media (min-width: 1800px) {
+  .tv-screen { width: 14vw; }
+  .poster-container { width: 18vw; top: 20%; right: 4.5%; }
+  .lb-frame { width: 18vw; left: 6.2%; top: 24%;  }
+  .shifter-gif { width: 20vw; max-width: 500px; }
+  .wall-clock{ right: 10%;top: 7%; }
+}
+
+@media (max-width: 1400px) {
+  .tv-screen { width: 22vw; }
+  .poster-container { width: 15vw; right: 0.3%; }
+  .shifter-gif { width: 35vw; }
+  .lb-frame { width: 17vw; }
+}
+
+@media (max-width: 1100px) {
+  .tv-screen { width: 15vw; }
+  .poster-container { width: 20vw; top:25%; right: 5%; }
+  .lb-frame { width: 25vw; top:18% }
+  .shifter-gif { width: 25vw; }
+  .lb-title { font-size: 8px; }
+  .lb-entry { font-size: 3px; }
+
+  .name-badge {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}

@@ -1,0 +1,81 @@
+/* ====== FULLSCREEN CONTAINER ====== */
+.intro-container {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  overflow: hidden;
+  font-family: "Pixelify Sans", Arial, sans-serif;
+}
+
+
+/* ====== LOGO ====== */
+.intro-logo {
+  width: 350px;
+  margin-bottom: 20px;
+  image-rendering: pixelated;
+
+  /* 🔥 Animatie smooth zoom-in/zoom-out */
+  animation: logoZoom 4s ease-in-out infinite;
+}
+
+/* 🔥 Keyframes pentru zoom */
+@keyframes logoZoom {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.07); }   /* zoom in ușor */
+  100% { transform: scale(1); }
+}
+
+
+/* ====== TITLE ====== */
+.intro-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #f5f5f5;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* ====== BUTTON ====== */
+.intro-btn {
+  padding: 14px 34px;
+  background: #ffcc00;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #000;
+  outline: none;
+
+  box-shadow:
+    0 0 12px rgba(255, 217, 0, 0.3),
+    inset 0 0 10px rgba(255, 255, 255, 0.3);
+
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.intro-btn:hover {
+  background: #ffe066;
+  transform: scale(1.05);
+}
+
+.intro-btn:active {
+  transform: scale(0.9);
+}
+
+/* BONUS: fade-in la apariție (nu interferează cu Motion) */
+.intro-container {
+  animation: fadeIntro 0.5s ease-out;
+}
+
+@keyframes fadeIntro {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
