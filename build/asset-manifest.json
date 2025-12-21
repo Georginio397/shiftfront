@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5a73aac2.css",
+    "main.js": "/static/js/main.aaa4f92b.js",
+    "static/media/PixelifySans.ttf": "/static/media/PixelifySans.010a030857ba699e8717.ttf",
+    "index.html": "/index.html",
+    "main.5a73aac2.css.map": "/static/css/main.5a73aac2.css.map",
+    "main.aaa4f92b.js.map": "/static/js/main.aaa4f92b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5a73aac2.css",
+    "static/js/main.aaa4f92b.js"
+  ]
+}
