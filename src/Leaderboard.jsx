@@ -3,18 +3,21 @@ import "./leaderboard.css";
 
 export default function Leaderboard() {
   const [scores, setScores] = useState([]);
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
 
   useEffect(() => {
     load();
-    const interval = setInterval(load, 3000);
+    const interval = setInterval(load, 5000);
     return () => clearInterval(interval);
   }, []);
 
   async function load() {
-    const res = await fetch("http://192.168.100.14:5000/api/leaderboard");
+    const res = await fetch(`${API_BASE}/api/leaderboard`);
     const data = await res.json();
     setScores(data);
   }
+  
 
   const currentUser = localStorage.getItem("shift_username");
 
