@@ -6,9 +6,12 @@ export default function AuthModal({ onClose, onSuccess }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const API_BASE = import.meta.env.VITE_API_BASE;
 
-
+  // 🔎 DEBUG (șterge după ce confirmi că merge)
+  console.log("API_BASE =", API_BASE);
 
   function generatePass() {
     const pass = Math.random().toString(36).slice(2, 10);
@@ -17,29 +20,55 @@ export default function AuthModal({ onClose, onSuccess }) {
 
   async function submitForm(e) {
     e.preventDefault();
-  
-    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/signup";
-  
-    const res = await fetch(`${API_BASE}${endpoint}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
-    });
-  
-    const data = await res.json();
-  
-    if (!res.ok) {
-      alert(data.error);
+
+    if (!API_BASE) {
+      alert("API base URL missing. Check Vercel ENV.");
       return;
     }
-  
-    localStorage.setItem("shift_username", username);
-    localStorage.setItem("shift_token", data.token);
-  
-    onSuccess();
-    onClose();
+
+    if (!username || !password) {
+      alert("Username and password required.");
+      return;
+    }
+
+    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/signup";
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      let data = null;
+
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error("Server returned invalid response");
+      }
+
+      if (!res.ok) {
+        throw new Error(data?.error || "Authentication failed");
+      }
+
+      localStorage.setItem("shift_username", username);
+      localStorage.setItem("shift_token", data.token);
+
+      onSuccess();
+      onClose();
+
+    } catch (err) {
+      console.error("AUTH ERROR:", err);
+      alert(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
-  
 
   return (
     <div className="auth-overlay">
@@ -55,30 +84,26 @@ export default function AuthModal({ onClose, onSuccess }) {
 
         <form onSubmit={submitForm} className="auth-form">
 
-          {/* USERNAME INPUT CU LIMITĂ */}
+          {/* USERNAME */}
           <input
             className="auth-input"
             placeholder="Username"
-            maxLength={16} // limită hard
+            maxLength={16}
             value={username}
             onChange={(e) => {
               let val = e.target.value;
-
-              // Acceptă doar litere, cifre și _
               val = val.replace(/[^a-zA-Z0-9_]/g, "");
-
               setUsername(val);
             }}
           />
 
-          {/* Warning la limită */}
           {username.length >= 16 && (
             <div className="limit-warning">
               Maximum 16 characters allowed.
             </div>
           )}
 
-          {/* PASSWORD INPUT */}
+          {/* PASSWORD */}
           <div
             className="password-wrapper"
             onMouseEnter={() => setShowPassword(true)}
@@ -92,10 +117,11 @@ export default function AuthModal({ onClose, onSuccess }) {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <span className="show-pass-hint">👁 Hover to reveal</span>
+            <span className="show-pass-hint">
+              👁 Hover to reveal
+            </span>
           </div>
 
-          {/* GENERATE PASSWORD BTN doar la signup */}
           {!isLogin && (
             <button
               type="button"
@@ -106,8 +132,16 @@ export default function AuthModal({ onClose, onSuccess }) {
             </button>
           )}
 
-          <button className="auth-btn" type="submit">
-            {isLogin ? "Login" : "Sign Up"}
+          <button
+            className="auth-btn"
+            type="submit"
+            disabled={loading}
+          >
+            {loading
+              ? "Please wait..."
+              : isLogin
+                ? "Login"
+                : "Sign Up"}
           </button>
 
         </form>
@@ -119,7 +153,9 @@ export default function AuthModal({ onClose, onSuccess }) {
             setPassword("");
           }}
         >
-          {isLogin ? "Need an account? Sign up" : "Already have an account? Login"}
+          {isLogin
+            ? "Need an account? Sign up"
+            : "Already have an account? Login"}
         </div>
 
       </div>
