@@ -3,7 +3,8 @@ import "./leaderboard.css";
 
 export default function Leaderboard() {
   const [scores, setScores] = useState([]);
-  const API_BASE = import.meta.env.VITE_API_BASE;
+  const API_BASE = process.env.REACT_APP_API_BASE;
+
 
 
   useEffect(() => {
