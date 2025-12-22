@@ -8,7 +8,7 @@ export default function AuthModal({ onClose, onSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = import.meta.env.VITE_API_BASE;
+  const API_BASE = process.env.REACT_APP_API_BASE;
 
   // 🔎 DEBUG (șterge după ce confirmi că merge)
   console.log("API_BASE =", API_BASE);
