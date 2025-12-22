@@ -14,6 +14,8 @@ export default function StackBurgerGame() {
   const BLOCK_HEIGHT = 20;
   const MAX_VISIBLE_HEIGHT = 300;
   const AREA_WIDTH = 360;
+  const API_BASE = process.env.REACT_APP_API_BASE;
+
 
   // mișcare stânga-dreapta
   useEffect(() => {
@@ -80,16 +82,18 @@ export default function StackBurgerGame() {
 
   async function sendScore(score) {
     const token = localStorage.getItem("shift_token");
-
-    await fetch("http://localhost:5000/api/save-score", {
+    if (!token) return;
+  
+    await fetch(`${API_BASE}/api/save-score`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({ score })
     });
   }
+  
 
 
   function restart() {
