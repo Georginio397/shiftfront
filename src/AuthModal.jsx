@@ -10,8 +10,6 @@ export default function AuthModal({ onClose, onSuccess }) {
 
   const API_BASE = process.env.REACT_APP_API_BASE;
 
-  // 🔎 DEBUG (șterge după ce confirmi că merge)
-  console.log("API_BASE =", API_BASE);
 
   function generatePass() {
     const pass = Math.random().toString(36).slice(2, 10);
