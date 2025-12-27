@@ -172,13 +172,10 @@ export default function Leaderboard() {
   </a>
 )}
 
-{/* FAILED → Warning */}
 {w.paymentStatus === "failed" && (
   <span
     title="Payment failed — click for details"
-    onClick={() => alert(
-      `Payment failed.\n\nPlease contact @cutare to receive your reward.`
-    )}
+    onClick={() => setErrorWinner(w)}
     style={{
       marginLeft: 6,
       color: "#ff4d4f",
@@ -189,6 +186,7 @@ export default function Leaderboard() {
     !
   </span>
 )}
+
 
 
 
