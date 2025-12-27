@@ -174,20 +174,22 @@ export default function Leaderboard() {
 
 {/* FAILED → Warning */}
 {w.paymentStatus === "failed" && (
-  <img
-    src="/warning.png"   // sau icon SVG
-    alt="Payment failed"
-    title="Payment failed"
+  <span
+    title="Payment failed — click for details"
+    onClick={() => alert(
+      `Payment failed.\n\nPlease contact @cutare to receive your reward.`
+    )}
     style={{
-      width: 14,
-      height: 14,
       marginLeft: 6,
+      color: "#ff4d4f",
       cursor: "pointer",
-      opacity: 0.85
+      fontWeight: "bold"
     }}
-    onClick={() => setErrorWinner(w)}
-  />
+  >
+    !
+  </span>
 )}
+
 
 
 
