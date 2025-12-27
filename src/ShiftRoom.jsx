@@ -32,8 +32,10 @@ const [copied, setCopied] = useState(false);
 const CONTRACT_ADDRESS = "Uploading shortly. Patience ";
 
 useEffect(() => {
-  // ❄️ pauză globală pentru ORICE overlay important
-  setScenePaused(gameOpen || authOpen || aboutOpen);
+  setScenePaused({
+    pause: gameOpen || authOpen || aboutOpen,
+    unloadBackground: gameOpen // ❗ DOAR la joc
+  });
 }, [gameOpen, authOpen, aboutOpen]);
 
 
