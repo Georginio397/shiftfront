@@ -3,24 +3,44 @@ import Intro from "./Intro";
 import LoadingScreen from "./LoadingScreen";
 import ShiftRoom from "./ShiftRoom";
 
+const Fullscreen = ({ children }) => (
+  <div
+    style={{
+      width: "100vw",
+      height: "100vh",
+      overflow: "hidden"
+    }}
+  >
+    {children}
+  </div>
+);
+
 export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
 
   if (phase === "intro") {
-    return <Intro onStart={() => setPhase("loading")} />;
+    return (
+      <Fullscreen>
+        <Intro onStart={() => setPhase("loading")} />
+      </Fullscreen>
+    );
   }
 
   if (phase === "loading") {
-    return <LoadingScreen onLoaded={() => setPhase("shift")} />;
+    return (
+      <Fullscreen>
+        <LoadingScreen onLoaded={() => setPhase("shift")} />
+      </Fullscreen>
+    );
   }
 
-  // 🔥 FAZA PRINCIPALĂ (SHIFT)
+  // 🔥 SHIFT
   return (
-    <>
+    <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* 🔔 GLOBAL TOAST */}
+      {/* GLOBAL TOAST */}
       {toast && (
         <div
           style={{
@@ -47,6 +67,6 @@ export default function App() {
           </div>
         </div>
       )}
-    </>
+    </Fullscreen>
   );
 }
