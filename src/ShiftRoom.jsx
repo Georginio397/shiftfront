@@ -251,16 +251,26 @@ function toggleContract() {
     }, 80);
   }}
 >
-  <video className="tv-video idle" src="/About.webm" autoPlay loop muted />
+<video
+  className="tv-video idle"
+  src="/About.webm"
+  autoPlay
+  loop
+  muted
+  playsInline
+  data-persistent="true"
+/>
 
-  <video
-    ref={aboutHoverRef}
-    className="tv-video hover"
-    src="/AboutHover.webm"
-    muted
-    loop={false}
-    playsInline
-  />
+<video
+  ref={gameHoverRef}
+  className="tv-video hover"
+  src="/AboutHover.webm"
+  muted
+  loop={false}
+  playsInline
+  data-persistent="true"
+/>
+
 </div>
 
 
@@ -286,13 +296,24 @@ function toggleContract() {
 >
 <video
   className="tv-video idle"
-  src="/play.webm"
+  src="/game.webm"
   autoPlay
   loop
   muted
   playsInline
   data-persistent="true"
 />
+
+<video
+  ref={gameHoverRef}
+  className="tv-video hover"
+  src="/play.webm"
+  muted
+  loop={false}
+  playsInline
+  data-persistent="true"
+/>
+
 </div>
 
 
@@ -315,16 +336,26 @@ function toggleContract() {
     setTimeout(() => v.pause(), 80);
   }}
 >
-  <video className="tv-video idle" src="/mint.webm" autoPlay loop muted />
+<video
+  className="tv-video idle"
+  src="/mint.webm"
+  autoPlay
+  loop
+  muted
+  playsInline
+  data-persistent="true"
+/>
 
-  <video
-    ref={mintHoverRef}
-    className="tv-video hover"
-    src="/minthover.webm"
-    muted
-    loop={false}
-    playsInline
-  />
+<video
+  ref={gameHoverRef}
+  className="tv-video hover"
+  src="/minthover.webm"
+  muted
+  loop={false}
+  playsInline
+  data-persistent="true"
+/>
+
 </div>
 
 
