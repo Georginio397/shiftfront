@@ -6,6 +6,8 @@ export default function Leaderboard() {
   const [winners, setWinners] = useState([]);
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [nextPayoutAt, setNextPayoutAt] = useState(null);
+  const [errorWinner, setErrorWinner] = useState(null);
+
 
 
 
@@ -137,8 +139,8 @@ export default function Leaderboard() {
     src={getRankIcon(w.rank)}
     alt={`Rank ${w.rank}`}
     style={{
-      width: 14,
-      height: 14,
+      width: 16,
+      height: 16,
       opacity: 0.9
     }}
   />
@@ -148,8 +150,8 @@ export default function Leaderboard() {
 
       <span>${w.amount}</span>
 
-{/* ⛓ Solscan link */}
-{w.tx && (
+{/* PAID → Solscan */}
+{w.paymentStatus === "paid" && w.tx && (
   <a
     href={`https://solscan.io/tx/${w.tx}`}
     target="_blank"
@@ -170,6 +172,26 @@ export default function Leaderboard() {
   </a>
 )}
 
+{/* FAILED → Warning */}
+{w.paymentStatus === "failed" && (
+  <img
+    src="/warning.png"   // sau icon SVG
+    alt="Payment failed"
+    title="Payment failed"
+    style={{
+      width: 14,
+      height: 14,
+      marginLeft: 6,
+      cursor: "pointer",
+      opacity: 0.85
+    }}
+    onClick={() => setErrorWinner(w)}
+  />
+)}
+
+
+
+
 
       <span style={{ opacity: 0.6 }}>
         {formatTime(w.timestamp)}
@@ -183,6 +205,31 @@ export default function Leaderboard() {
           No payouts yet.
         </div>
       )}
+
+{errorWinner && (
+  <div className="modal-backdrop">
+    <div className="modal-box">
+      <h3>⚠️ Reward payment pending</h3>
+
+      <p style={{ marginTop: 10 }}>
+        The reward of <b>${errorWinner.amount}</b> for <b>{errorWinner.username}</b>  
+        could not be sent due to insufficient treasury funds.
+      </p>
+
+      <p style={{ marginTop: 8 }}>
+        Please contact <b>@cutare</b> to receive your reward manually.
+      </p>
+
+      <button
+        style={{ marginTop: 14 }}
+        onClick={() => setErrorWinner(null)}
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
