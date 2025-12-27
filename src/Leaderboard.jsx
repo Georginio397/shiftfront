@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from "react";
 
 import "./leaderboard.css";
 
-export default function Leaderboard() {
+export default function Leaderboard({ onToast }) {
+
   const [scores, setScores] = useState([]);
   const [winners, setWinners] = useState([]);
   const [activeTab, setActiveTab] = useState("leaderboard");
