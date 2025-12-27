@@ -133,23 +133,28 @@ export default function Leaderboard() {
 
       <span>${w.amount}</span>
 
-      {/* ⛓ Solscan link */}
-      {w.tx && (
-        <a
-          href={`https://solscan.io/tx/${w.tx}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          title="View on Solscan"
-          style={{
-            marginLeft: 6,
-            opacity: 0.7,
-            textDecoration: "none",
-            cursor: "pointer"
-          }}
-        >
-          🔗
-        </a>
-      )}
+{/* ⛓ Solscan link */}
+{w.tx && (
+  <a
+    href={`https://solscan.io/tx/${w.tx}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    title="View on Solscan"
+    style={{ marginLeft: 6 }}
+  >
+    <img
+      src="/solscan.png"
+      alt="Solscan"
+      style={{
+        width: 14,
+        height: 14,
+        opacity: 0.75,
+        cursor: "pointer"
+      }}
+    />
+  </a>
+)}
+
 
       <span style={{ opacity: 0.6 }}>
         {formatTime(w.timestamp)}
