@@ -1,32 +1,32 @@
 let parallaxDisabled = false;
 
-export function setScenePaused({ pause, unloadBackground }) {
-  parallaxDisabled = pause;
-  document.body.classList.toggle("scene-paused", pause);
+export function setScenePaused(paused) {
+  parallaxDisabled = paused;
+  document.body.classList.toggle("scene-paused", paused);
 
   document.querySelectorAll("video").forEach(v => {
     const persistent = v.dataset.persistent === "true";
     const unloadable = v.dataset.unloadable === "true";
 
-    if (pause) {
+    if (paused) {
       v.pause();
 
-      // ❄️ unload DOAR când e jocul
-      if (unloadBackground && unloadable) {
+      if (unloadable) {
         v.dataset.src = v.src;
         v.removeAttribute("src");
         v.load();
       }
 
     } else {
-      // 🔁 restore background
+      // 🔁 RESTORE background cinematic
       if (unloadable && v.dataset.src) {
         v.src = v.dataset.src;
         v.load();
       }
 
-      // ▶️ restart UI videos
+      // 🔥 RESTART UI VIDEOS (TV-uri)
       if (persistent) {
+        v.currentTime = 0;
         v.play().catch(() => {});
       }
     }
