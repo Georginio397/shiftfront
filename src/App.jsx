@@ -25,7 +25,7 @@ export default function App() {
         <div
           style={{
             position: "fixed",
-            bottom: 24,
+            bottom: 40,
             left: "50%",
             transform: "translateX(-50%)",
             background: "#3a1f1f",
@@ -42,7 +42,7 @@ export default function App() {
           <div style={{ fontWeight: "bold", marginBottom: 6 }}>
             ⚠️ {toast.title}
           </div>
-          <div style={{ fontSize: 13, opacity: 0.9 }}>
+          <div style={{ fontSize: 15, opacity: 0.9 }}>
             {toast.message}
           </div>
         </div>
