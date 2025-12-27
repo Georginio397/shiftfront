@@ -75,9 +75,9 @@ export default function Leaderboard() {
   }
 
   function getRankIcon(rank) {
-    if (rank === 1) return "/gold.png";
-    if (rank === 2) return "/silver.png";
-    return "/bronze.png";
+    if (rank === 1) return "/gold.PNG";
+    if (rank === 2) return "/silver.PNG";
+    return "/bronze.PNG";
   }
   
 
