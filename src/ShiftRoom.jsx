@@ -34,8 +34,9 @@ const CONTRACT_ADDRESS = "Uploading shortly. Patience ";
 useEffect(() => {
   setScenePaused({
     pause: gameOpen || authOpen || aboutOpen,
-    unloadBackground: gameOpen // ❗ DOAR la joc
+    unloadBackground: false
   });
+  
 }, [gameOpen, authOpen, aboutOpen]);
 
 
