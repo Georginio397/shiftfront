@@ -5,7 +5,8 @@ export default function Leaderboard() {
   const [scores, setScores] = useState([]);
   const [winners, setWinners] = useState([]);
   const [activeTab, setActiveTab] = useState("leaderboard");
-  const [countdown, setCountdown] = useState("");
+  const [nextPayoutAt, setNextPayoutAt] = useState(null);
+
 
 
   const API_BASE = process.env.REACT_APP_API_BASE;
@@ -23,13 +24,14 @@ export default function Leaderboard() {
     return () => clearInterval(interval);
   }, [activeTab]);
 
+
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(getNextPayoutCountdown());
-    }, 1000);
-  
-    return () => clearInterval(timer);
+    loadPayoutState();
+    const sync = setInterval(loadPayoutState, 30000); // resync la 30s
+    return () => clearInterval(sync);
   }, []);
+  
   
 
   async function loadLeaderboard() {
@@ -44,18 +46,27 @@ export default function Leaderboard() {
     setWinners(data);
   }
 
-  function getNextPayoutCountdown() {
-    const now = Date.now();
-    const interval = 5 * 60 * 1000; // 5 min
+  async function loadPayoutState() {
+    const res = await fetch(`${API_BASE}/api/payout-state`);
+    const data = await res.json();
+    if (data?.nextRunAt) {
+      setNextPayoutAt(new Date(data.nextRunAt).getTime());
+    }
+  }
   
-    const next = Math.ceil(now / interval) * interval;
-    const diff = next - now;
+
+  function formatCountdown() {
+    if (!nextPayoutAt) return "--:--";
+  
+    const diff = nextPayoutAt - Date.now();
+    if (diff <= 0) return "00:00";
   
     const min = Math.floor(diff / 60000);
     const sec = Math.floor((diff % 60000) / 1000);
   
     return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
   }
+  
   
 
   function formatTime(ts) {
@@ -92,7 +103,8 @@ export default function Leaderboard() {
   opacity: 0.7,
   marginBottom: 6
 }}>
-  ⏱ Next payout in {countdown}
+ ⏱ Next payout in {formatCountdown()}
+
 </div>
 
 
