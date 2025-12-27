@@ -5,6 +5,8 @@ export default function Leaderboard() {
   const [scores, setScores] = useState([]);
   const [winners, setWinners] = useState([]);
   const [activeTab, setActiveTab] = useState("leaderboard");
+  const [countdown, setCountdown] = useState("");
+
 
   const API_BASE = process.env.REACT_APP_API_BASE;
   const currentUser = localStorage.getItem("shift_username");
@@ -21,6 +23,15 @@ export default function Leaderboard() {
     return () => clearInterval(interval);
   }, [activeTab]);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown(getNextPayoutCountdown());
+    }, 1000);
+  
+    return () => clearInterval(timer);
+  }, []);
+  
+
   async function loadLeaderboard() {
     const res = await fetch(`${API_BASE}/api/leaderboard`);
     const data = await res.json();
@@ -33,10 +44,25 @@ export default function Leaderboard() {
     setWinners(data);
   }
 
+  function getNextPayoutCountdown() {
+    const now = Date.now();
+    const interval = 5 * 60 * 1000; // 5 min
+  
+    const next = Math.ceil(now / interval) * interval;
+    const diff = next - now;
+  
+    const min = Math.floor(diff / 60000);
+    const sec = Math.floor((diff % 60000) / 1000);
+  
+    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  }
+  
+
   function formatTime(ts) {
     const d = new Date(ts);
     return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
+
 
   return (
     <div className="leaderboard-content">
@@ -59,6 +85,16 @@ export default function Leaderboard() {
           💸 Last Winners
         </h3>
       </div>
+
+      <div style={{
+  textAlign: "center",
+  fontSize: 13,
+  opacity: 0.7,
+  marginBottom: 6
+}}>
+  ⏱ Next payout in {countdown}
+</div>
+
 
       {/* LEADERBOARD (codul tău, neschimbat) */}
       {activeTab === "leaderboard" &&
