@@ -187,23 +187,14 @@ export default function Leaderboard() {
 
 {w.paymentStatus === "failed" && (
   <span
-  onClick={() => {
-    if (toastTimeoutRef.current) {
-      clearTimeout(toastTimeoutRef.current);
-    }
-  
-    setToast({
-      title: "Reward payment pending",
-      message: `The reward of $${w.amount} for ${w.username} could not be sent due to insufficient treasury funds. Please contact @cutare to receive it.`
-    });
-  
-    toastTimeoutRef.current = setTimeout(() => {
-      setToast(null);
-      toastTimeoutRef.current = null;
-    }, 5000);
-  }}
-  
-    title="Payment failed"
+    onClick={() => {
+      onToast({
+        title: "Reward payment pending",
+        message: `The reward of $${w.amount} for ${w.username} could not be sent due to insufficient treasury funds. Please contact @cutare to receive it.`
+      });
+
+      setTimeout(() => onToast(null), 5000);
+    }}
     style={{
       marginLeft: 6,
       color: "#ff4d4f",
@@ -214,6 +205,7 @@ export default function Leaderboard() {
     !
   </span>
 )}
+
 
 
 
@@ -234,39 +226,6 @@ export default function Leaderboard() {
           No payouts yet.
         </div>
       )}
-
-{toast && (
-  <div
-    style={{
-      position: "fixed",
-      bottom: 24,
-      left: "50%",
-      transform: "translateX(-50%)",
-
-      background: "#3a1f1f",
-      border: "2px solid #ff4d4f",
-      padding: "14px 18px",
-      borderRadius: 8,
-      color: "#ffd6d6",
-
-      zIndex: 999999,          // 🔥 FOARTE IMPORTANT
-      pointerEvents: "auto",   // 🔥 asigură click
-      maxWidth: "90vw",
-
-      boxShadow: "0 6px 18px rgba(0,0,0,0.6)"
-    }}
-  >
-    <div style={{ fontWeight: "bold", marginBottom: 6 }}>
-      ⚠️ {toast.title}
-    </div>
-    <div style={{ fontSize: 13, opacity: 0.9 }}>
-      {toast.message}
-    </div>
-  </div>
-)}
-
-
-
 
 
     </div>

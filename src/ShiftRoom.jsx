@@ -7,7 +7,7 @@ import Leaderboard from "./Leaderboard";
 import AuthModal from "./AuthModal";
 import AboutModal from "./AboutModal";
 
-export default function ShiftRoom() {
+export default function ShiftRoom({ onToast }) {
   const [gameOpen, setGameOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [nickname, setNickname] = useState("");
@@ -433,7 +433,8 @@ function toggleContract() {
       <div className="lb-frame">
         <img src="/Leaderb.png" className="lb-frame-img" alt="Frame" />
         <div className="lb-content">
-          <Leaderboard />
+        <Leaderboard onToast={onToast} />
+
         </div>
       </div>
 
