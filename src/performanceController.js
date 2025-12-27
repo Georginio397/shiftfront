@@ -11,21 +11,24 @@ export function setScenePaused(paused) {
     if (paused) {
       v.pause();
 
-      // ❄️ DOAR background cinematic
       if (unloadable) {
         v.dataset.src = v.src;
         v.removeAttribute("src");
         v.load();
       }
+
     } else {
-      // 🔁 RESTORE doar ce a fost unload-at
+      // 🔁 RESTORE background cinematic
       if (unloadable && v.dataset.src) {
         v.src = v.dataset.src;
         v.load();
       }
 
-      // ⚠️ NU chemăm play() manual
-      // autoplay va merge doar unde src NU a fost scos
+      // 🔥 RESTART UI VIDEOS (TV-uri)
+      if (persistent) {
+        v.currentTime = 0;
+        v.play().catch(() => {});
+      }
     }
   });
 }
