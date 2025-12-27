@@ -32,8 +32,10 @@ const [copied, setCopied] = useState(false);
 const CONTRACT_ADDRESS = "Uploading shortly. Patience ";
 
 useEffect(() => {
-  // ❄️ pauză globală pentru ORICE overlay important
-  setScenePaused(gameOpen || authOpen || aboutOpen);
+  setScenePaused({
+    pause: gameOpen || authOpen || aboutOpen,
+    unloadBackground: gameOpen // ❗ DOAR la joc
+  });
 }, [gameOpen, authOpen, aboutOpen]);
 
 
@@ -262,7 +264,7 @@ function toggleContract() {
 />
 
 <video
-  ref={gameHoverRef}
+  ref={aboutHoverRef}
   className="tv-video hover"
   src="/AboutHover.webm"
   muted
@@ -270,6 +272,7 @@ function toggleContract() {
   playsInline
   data-persistent="true"
 />
+
 
 </div>
 
@@ -314,6 +317,7 @@ function toggleContract() {
   data-persistent="true"
 />
 
+
 </div>
 
 
@@ -347,7 +351,7 @@ function toggleContract() {
 />
 
 <video
-  ref={gameHoverRef}
+  ref={mintHoverRef}
   className="tv-video hover"
   src="/minthover.webm"
   muted
@@ -355,6 +359,7 @@ function toggleContract() {
   playsInline
   data-persistent="true"
 />
+
 
 </div>
 
