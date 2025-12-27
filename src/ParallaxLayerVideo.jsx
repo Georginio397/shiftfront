@@ -15,7 +15,10 @@ export default function ParallaxLayerVideo({
     const video = videoRef.current;
     if (!video) return;
 
-    // salvăm sursa pentru restore după unload
+    // ✅ setăm transform inițial (FOARTE IMPORTANT)
+    video.style.transform = "translate(0px, 0px)";
+
+    // salvăm sursa pentru unload / restore
     video.dataset.src = src;
     video.src = src;
 
@@ -24,18 +27,20 @@ export default function ParallaxLayerVideo({
 
   useEffect(() => {
     function handleMouseMove(e) {
-      // ❄️ oprit complet când jocul e activ
+      const video = videoRef.current;
+      if (!video) return;
+
+      // ❄️ dacă e pauză, NU recalculăm, dar NU stricăm starea
       if (isParallaxDisabled()) return;
 
-      const x = e.clientX / window.innerWidth;   // 0 → 1
-      const y = e.clientY / window.innerHeight;  // 0 → 1
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
 
       const moveX =
         (invertX ? (x - 0.5) : -(x - 0.5)) * intensityX;
       const moveY =
         (invertY ? (y - 0.5) : -(y - 0.5)) * intensityY;
 
-      // ✅ transform direct pe DOM — ZERO re-render
       video.style.transform =
         `translate(${moveX}px, ${moveY}px)`;
     }
