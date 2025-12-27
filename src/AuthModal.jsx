@@ -5,6 +5,7 @@ export default function AuthModal({ onClose, onSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [wallet, setWallet] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -29,6 +30,12 @@ export default function AuthModal({ onClose, onSuccess }) {
       return;
     }
 
+    if (!isLogin && !wallet) {
+      alert("Wallet address required for rewards.");
+      return;
+    }
+    
+
     const endpoint = isLogin ? "/api/auth/login" : "/api/auth/signup";
 
     setLoading(true);
@@ -39,7 +46,7 @@ export default function AuthModal({ onClose, onSuccess }) {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password, wallet })
       });
 
       let data = null;
@@ -100,6 +107,16 @@ export default function AuthModal({ onClose, onSuccess }) {
               Maximum 16 characters allowed.
             </div>
           )}
+
+{!isLogin && (
+  <input
+    className="auth-input"
+    placeholder="Wallet address"
+    value={wallet}
+    onChange={(e) => setWallet(e.target.value.trim())}
+  />
+)}
+
 
           {/* PASSWORD */}
           <div
