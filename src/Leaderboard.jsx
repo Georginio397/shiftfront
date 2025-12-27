@@ -6,7 +6,10 @@ export default function Leaderboard() {
   const [winners, setWinners] = useState([]);
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [nextPayoutAt, setNextPayoutAt] = useState(null);
-  const [errorWinner, setErrorWinner] = useState(null);
+  const toastTimeoutRef = useRef(null);
+
+  const [toast, setToast] = useState(null);
+
 
 
 
@@ -38,23 +41,32 @@ export default function Leaderboard() {
 
   async function loadLeaderboard() {
     const res = await fetch(`${API_BASE}/api/leaderboard`);
+    if (!res.ok) return; // 🔥 oprește eroarea 400 în console
+  
     const data = await res.json();
     setScores(data);
   }
+  
 
   async function loadWinners() {
     const res = await fetch(`${API_BASE}/api/last-winners`);
+    if (!res.ok) return;
+  
     const data = await res.json();
     setWinners(data);
   }
+  
 
   async function loadPayoutState() {
     const res = await fetch(`${API_BASE}/api/payout-state`);
+    if (!res.ok) return;
+  
     const data = await res.json();
     if (data?.nextRunAt) {
       setNextPayoutAt(new Date(data.nextRunAt).getTime());
     }
   }
+  
   
 
   function formatCountdown() {
@@ -174,8 +186,23 @@ export default function Leaderboard() {
 
 {w.paymentStatus === "failed" && (
   <span
-    title="Payment failed — click for details"
-    onClick={() => setErrorWinner(w)}
+  onClick={() => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
+  
+    setToast({
+      title: "Reward payment pending",
+      message: `The reward of $${w.amount} for ${w.username} could not be sent due to insufficient treasury funds. Please contact @cutare to receive it.`
+    });
+  
+    toastTimeoutRef.current = setTimeout(() => {
+      setToast(null);
+      toastTimeoutRef.current = null;
+    }, 5000);
+  }}
+  
+    title="Payment failed"
     style={{
       marginLeft: 6,
       color: "#ff4d4f",
@@ -186,6 +213,7 @@ export default function Leaderboard() {
     !
   </span>
 )}
+
 
 
 
@@ -206,29 +234,36 @@ export default function Leaderboard() {
         </div>
       )}
 
-{errorWinner && (
-  <div className="modal-backdrop">
-    <div className="modal-box">
-      <h3>⚠️ Reward payment pending</h3>
-
-      <p style={{ marginTop: 10 }}>
-        The reward of <b>${errorWinner.amount}</b> for <b>{errorWinner.username}</b>  
-        could not be sent due to insufficient treasury funds.
-      </p>
-
-      <p style={{ marginTop: 8 }}>
-        Please contact <b>@cutare</b> to receive your reward manually.
-      </p>
-
-      <button
-        style={{ marginTop: 14 }}
-        onClick={() => setErrorWinner(null)}
-      >
-        Close
-      </button>
+{toast && (
+  <div
+    style={{
+      position: "fixed",
+      bottom: 20,
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: "#3a1f1f",
+      border: "2px solid #ff4d4f",
+      padding: "14px 18px",
+      borderRadius: 8,
+      color: "#ffd6d6",
+      zIndex: 9999,
+      boxShadow: "0 6px 18px rgba(0,0,0,0.6)",
+      minWidth: 280,
+      textAlign: "center",
+      animation: "fadeIn 0.2s ease-out"
+    }}
+  >
+    <div style={{ fontWeight: "bold", marginBottom: 6 }}>
+      ⚠️ {toast.title}
+    </div>
+    <div style={{ fontSize: 13, opacity: 0.9 }}>
+      {toast.message}
     </div>
   </div>
 )}
+
+
+
 
     </div>
   );
