@@ -284,16 +284,15 @@ function toggleContract() {
     setTimeout(() => v.pause(), 80);
   }}
 >
-  <video className="tv-video idle" src="/game.webm" autoPlay loop muted />
-
-  <video
-    ref={gameHoverRef}
-    className="tv-video hover"
-    src="/play.webm"
-    muted
-    loop={false}
-    playsInline
-  />
+<video
+  className="tv-video idle"
+  src="/play.webm"
+  autoPlay
+  loop
+  muted
+  playsInline
+  data-persistent="true"
+/>
 </div>
 
 

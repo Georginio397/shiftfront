@@ -51,15 +51,14 @@ export default function ParallaxLayerVideo({
 
   return (
     <video
-      ref={videoRef}
-      className={`parallax-video ${className}`}
-      autoPlay
-      loop
-      muted
-      playsInline
-      style={{
-        transition: "transform 0.18s ease-out"
-      }}
-    />
+    ref={videoRef}
+    className={`parallax-video ${className}`}
+    muted
+    loop
+    autoPlay
+    playsInline
+    data-unloadable="true"
+  />
+  
   );
 }
