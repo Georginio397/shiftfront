@@ -123,16 +123,40 @@ export default function Leaderboard() {
 
       {/* LAST WINNERS */}
       {activeTab === "winners" &&
-        winners.map((w, i) => (
-          <div key={i} className="lb-entry">
-            <span>
-              {w.rank === 1 ? "🥇" : w.rank === 2 ? "🥈" : "🥉"}
-            </span>
-            <span>{w.username}</span>
-            <span>${w.amount}</span>
-            <span style={{ opacity: 0.6 }}>{formatTime(w.timestamp)}</span>
-          </div>
-        ))}
+  winners.map((w, i) => (
+    <div key={i} className="lb-entry">
+      <span>
+        {w.rank === 1 ? "🥇" : w.rank === 2 ? "🥈" : "🥉"}
+      </span>
+
+      <span>{w.username}</span>
+
+      <span>${w.amount}</span>
+
+      {/* ⛓ Solscan link */}
+      {w.tx && (
+        <a
+          href={`https://solscan.io/tx/${w.tx}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="View on Solscan"
+          style={{
+            marginLeft: 6,
+            opacity: 0.7,
+            textDecoration: "none",
+            cursor: "pointer"
+          }}
+        >
+          🔗
+        </a>
+      )}
+
+      <span style={{ opacity: 0.6 }}>
+        {formatTime(w.timestamp)}
+      </span>
+    </div>
+))}
+
 
       {activeTab === "winners" && winners.length === 0 && (
         <div style={{ textAlign: "center", opacity: 0.6, marginTop: 10 }}>
