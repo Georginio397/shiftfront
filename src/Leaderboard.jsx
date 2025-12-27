@@ -239,19 +239,21 @@ export default function Leaderboard() {
   <div
     style={{
       position: "fixed",
-      bottom: 20,
+      bottom: 24,
       left: "50%",
       transform: "translateX(-50%)",
+
       background: "#3a1f1f",
       border: "2px solid #ff4d4f",
       padding: "14px 18px",
       borderRadius: 8,
       color: "#ffd6d6",
-      zIndex: 9999,
-      boxShadow: "0 6px 18px rgba(0,0,0,0.6)",
-      minWidth: 280,
-      textAlign: "center",
-      animation: "fadeIn 0.2s ease-out"
+
+      zIndex: 999999,          // 🔥 FOARTE IMPORTANT
+      pointerEvents: "auto",   // 🔥 asigură click
+      maxWidth: "90vw",
+
+      boxShadow: "0 6px 18px rgba(0,0,0,0.6)"
     }}
   >
     <div style={{ fontWeight: "bold", marginBottom: 6 }}>
@@ -262,6 +264,7 @@ export default function Leaderboard() {
     </div>
   </div>
 )}
+
 
 
 
