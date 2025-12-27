@@ -74,6 +74,13 @@ export default function Leaderboard() {
     return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
 
+  function getRankIcon(rank) {
+    if (rank === 1) return "/gold.png";
+    if (rank === 2) return "/silver.png";
+    return "/bronze.png";
+  }
+  
+
 
   return (
     <div className="leaderboard-content">
@@ -125,9 +132,17 @@ export default function Leaderboard() {
       {activeTab === "winners" &&
   winners.map((w, i) => (
     <div key={i} className="lb-entry">
-      <span>
-        {w.rank === 1 ? "🥇" : w.rank === 2 ? "🥈" : "🥉"}
-      </span>
+<span style={{ width: 18, display: "flex", justifyContent: "center" }}>
+  <img
+    src={getRankIcon(w.rank)}
+    alt={`Rank ${w.rank}`}
+    style={{
+      width: 14,
+      height: 14,
+      opacity: 0.9
+    }}
+  />
+</span>
 
       <span>{w.username}</span>
 
