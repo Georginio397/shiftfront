@@ -10,8 +10,13 @@ export default function ParallaxLayer({
   const ref = useRef(null);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // ✅ INITIAL transform (CRUCIAL)
+    el.style.transform = "translate(0px, 0px) scale(1.05)";
+
     function move(e) {
-      // ❄️ oprit complet când jocul e activ
       if (isParallaxDisabled()) return;
 
       let x = (e.clientX - window.innerWidth / 2) * speed;
@@ -22,8 +27,7 @@ export default function ParallaxLayer({
         y = -y;
       }
 
-      // ✅ direct DOM transform — ZERO re-render
-      ref.current.style.transform =
+      el.style.transform =
         `translate(${x}px, ${y}px) scale(1.05)`;
     }
 
