@@ -194,7 +194,7 @@ export default function Leaderboard() {
 
 
       <span style={{ opacity: 0.6 }}>
-        {formatTime(w.timestamp)}
+      {formatTime(w.createdAt)}
       </span>
     </div>
 ))}
