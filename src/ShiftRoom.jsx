@@ -6,6 +6,9 @@ import GameModal from "./GameModal";
 import Leaderboard from "./Leaderboard";
 import AuthModal from "./AuthModal";
 import AboutModal from "./AboutModal";
+import { setScenePaused } from "../performanceController";
+
+
 
 export default function ShiftRoom({ onToast }) {
   const [gameOpen, setGameOpen] = useState(false);
@@ -24,31 +27,15 @@ const mintHoverRef = useRef(null);
 const [contractVisible, setContractVisible] = useState(false);
 const [copied, setCopied] = useState(false);
 
-useEffect(() => {
-  if (gameOpen) {
-    document.body.classList.add("game-active");
-
-    // PAUSE toate video-urile din background
-    document
-      .querySelectorAll("video.parallax-video")
-      .forEach(v => v.pause());
-
-  } else {
-    document.body.classList.remove("game-active");
-
-    // RESUME video-urile când ieși din joc
-    document
-      .querySelectorAll("video.parallax-video")
-      .forEach(v => {
-        v.play().catch(() => {});
-      });
-  }
-}, [gameOpen]);
-
-
 
 
 const CONTRACT_ADDRESS = "Uploading shortly. Patience ";
+
+useEffect(() => {
+  // ❄️ pauză globală pentru ORICE overlay important
+  setScenePaused(gameOpen || authOpen || aboutOpen);
+}, [gameOpen, authOpen, aboutOpen]);
+
 
 function copyToClipboard(text) {
   // metoda modernă

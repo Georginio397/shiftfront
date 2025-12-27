@@ -1,10 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import { isParallaxDisabled } from "../performanceController";
 
-export default function ParallaxLayer({ src, speed = 0.02, invert = false, className = "" }) {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+export default function ParallaxLayer({
+  src,
+  speed = 0.02,
+  invert = false,
+  className = ""
+}) {
+  const ref = useRef(null);
 
   useEffect(() => {
-    const move = (e) => {
+    function move(e) {
+      // ❄️ oprit complet când jocul e activ
+      if (isParallaxDisabled()) return;
+
       let x = (e.clientX - window.innerWidth / 2) * speed;
       let y = (e.clientY - window.innerHeight / 2) * speed;
 
@@ -13,8 +22,10 @@ export default function ParallaxLayer({ src, speed = 0.02, invert = false, class
         y = -y;
       }
 
-      setPos({ x, y });
-    };
+      // ✅ direct DOM transform — ZERO re-render
+      ref.current.style.transform =
+        `translate(${x}px, ${y}px) scale(1.05)`;
+    }
 
     window.addEventListener("mousemove", move);
     return () => window.removeEventListener("mousemove", move);
@@ -22,12 +33,10 @@ export default function ParallaxLayer({ src, speed = 0.02, invert = false, class
 
   return (
     <img
+      ref={ref}
       src={src}
       className={`parallax-layer ${className}`}
       alt=""
-      style={{
-        transform: `translate(${pos.x}px, ${pos.y}px) scale(1.05)`,
-      }}
     />
   );
 }

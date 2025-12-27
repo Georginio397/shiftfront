@@ -2,12 +2,19 @@
 /*        SCENE STRUCTURE        */
 /* ============================= */
 
-/* FREEZE DOAR BACKGROUND */
-body.game-active .scene,
-body.game-active .scene * {
+/* FREEZE TOTAL BACKGROUND */
+body.scene-paused .scene,
+body.scene-paused .scene * {
   animation-play-state: paused !important;
   transition: none !important;
+  will-change: auto !important;
 }
+
+/* opțional cinematic */
+body.scene-paused .scene {
+  filter: blur(2px) brightness(0.55);
+}
+
 
 /* opțional cinematic */
 body.game-active .scene {
