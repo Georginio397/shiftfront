@@ -1,34 +1,31 @@
 let parallaxDisabled = false;
 
 export function setScenePaused(paused) {
-  const body = document.body;
   parallaxDisabled = paused;
-  body.classList.toggle("scene-paused", paused);
+  document.body.classList.toggle("scene-paused", paused);
 
   document.querySelectorAll("video").forEach(v => {
-    const isPersistent = v.dataset.persistent === "true";
-    const isUnloadable = v.dataset.unloadable === "true";
+    const persistent = v.dataset.persistent === "true";
+    const unloadable = v.dataset.unloadable === "true";
 
     if (paused) {
       v.pause();
-      v.currentTime = 0;
 
-      // ❄️ DOAR background cinematic se unload-ează
-      if (isUnloadable) {
+      // ❄️ DOAR background cinematic
+      if (unloadable) {
         v.dataset.src = v.src;
         v.removeAttribute("src");
         v.load();
       }
-
     } else {
-      // 🔁 RESTORE DOAR cele unload-ate
-      if (isUnloadable && v.dataset.src) {
+      // 🔁 RESTORE doar ce a fost unload-at
+      if (unloadable && v.dataset.src) {
         v.src = v.dataset.src;
         v.load();
       }
 
-      // ⚠️ NU forțăm play() – autoplay va porni singur
-      // pentru că src NU a fost șters la persistent
+      // ⚠️ NU chemăm play() manual
+      // autoplay va merge doar unde src NU a fost scos
     }
   });
 }

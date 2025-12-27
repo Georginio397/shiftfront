@@ -50,15 +50,16 @@ export default function ParallaxLayerVideo({
   }, [intensityX, intensityY, invertX, invertY]);
 
   return (
-    <video
-    ref={videoRef}
-    className={`parallax-video ${className}`}
-    muted
-    loop
-    autoPlay
-    playsInline
-    data-unloadable="true"
-  />
+<video
+  ref={videoRef}
+  className={`parallax-video ${className}`}
+  autoPlay
+  loop
+  muted
+  playsInline
+  data-unloadable="true"
+/>
+
   
   );
 }
