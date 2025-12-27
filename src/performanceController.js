@@ -1,4 +1,4 @@
-
+// performanceController.js
 let parallaxDisabled = false;
 
 export function setScenePaused(paused) {
@@ -8,7 +8,6 @@ export function setScenePaused(paused) {
     body.classList.add("scene-paused");
     parallaxDisabled = true;
 
-    // PAUSE + UNLOAD toate video-urile non-interactive
     document.querySelectorAll("video").forEach(v => {
       if (v.dataset.persistent === "true") return;
 
@@ -23,9 +22,16 @@ export function setScenePaused(paused) {
     body.classList.remove("scene-paused");
     parallaxDisabled = false;
 
-    // RESTORE video-urile
     document.querySelectorAll("video[data-src]").forEach(v => {
+      // 🔥 RESTORE SRC
       v.src = v.dataset.src;
+
+      // 🔥 RESET vizual complet
+      v.style.opacity = "1";
+      v.style.display = "";
+      v.style.transform = "translate(0px, 0px)";
+      v.currentTime = 0;
+
       v.load();
       v.play().catch(() => {});
     });

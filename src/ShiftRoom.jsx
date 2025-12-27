@@ -36,6 +36,17 @@ useEffect(() => {
   setScenePaused(gameOpen || authOpen || aboutOpen);
 }, [gameOpen, authOpen, aboutOpen]);
 
+useEffect(() => {
+  if (gameOpen || authOpen || aboutOpen) return;
+
+  // 🔁 reset TV screens după revenire
+  document.querySelectorAll(".tv-video").forEach(v => {
+    v.style.opacity = "1";
+    v.currentTime = 0;
+  });
+}, [gameOpen, authOpen, aboutOpen]);
+
+
 
 function copyToClipboard(text) {
   // metoda modernă
