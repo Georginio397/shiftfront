@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isParallaxDisabled } from "../performanceController";
+import { isParallaxDisabled } from "./performanceController";
 
 export default function ParallaxLayerVideo({
   src,
