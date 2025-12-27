@@ -191,8 +191,9 @@ export default function Leaderboard({ onToast }) {
     onClick={() => {
       onToast({
         title: "Reward payment pending",
-        message: `The reward of $${w.amount} for ${w.username} could not be sent due to insufficient treasury funds. Please contact @cutare to receive it.`
+        message: `The reward of $${w.amount} for ${w.username} could not be sent. This may be due to insufficient treasury funds or an invalid wallet address. Please contact @Soljke on X to receive your reward.`
       });
+      
 
       setTimeout(() => onToast(null), 5000);
     }}
