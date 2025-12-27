@@ -26,6 +26,8 @@ const gameHoverRef = useRef(null);
 const mintHoverRef = useRef(null);
 const [contractVisible, setContractVisible] = useState(false);
 const [copied, setCopied] = useState(false);
+const MINT_LINK = "https://launchmynft.io/collections/CWvZc3jpLuD4gUXZ4u13brwyh1GfXNA4VU8YtTbQR7Td/VE9lKalzNceeqyR8TPrT";
+
 
 
 
@@ -326,21 +328,22 @@ function toggleContract() {
         {/* MINT TV */}
         <div
   className="tv-screen"
-  onClick={() => console.log("Mint clicked")}
+  onClick={() => {
+    window.open(MINT_LINK, "_blank", "noopener,noreferrer");
+  }}
   onMouseEnter={() => {
     const v = mintHoverRef.current;
     if (!v) return;
-
     v.currentTime = 0;
     v.play().catch(() => {});
   }}
   onMouseLeave={() => {
     const v = mintHoverRef.current;
     if (!v) return;
-
     setTimeout(() => v.pause(), 80);
   }}
 >
+
 <video
   className="tv-video idle"
   src="/mint.webm"
