@@ -19,6 +19,7 @@ const Fullscreen = ({ children }) => (
 export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
+  const API_BASE = process.env.REACT_APP_API_BASE;
 
   // 🔥 PAYOUT STATE (GLOBAL)
   const [payoutPopup, setPayoutPopup] = useState(null);
