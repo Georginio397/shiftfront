@@ -29,7 +29,7 @@ body.game-active .scene {
 
 .performance-toggle {
   position: fixed;
-  left: 18px;
+  right: 18px;
   bottom: 90px;
   z-index: 999999;
 
