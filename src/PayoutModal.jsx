@@ -5,24 +5,35 @@ export default function PayoutModal({ payout, onClose }) {
     const API_BASE = process.env.REACT_APP_API_BASE;
     const token = localStorage.getItem("shift_token");
 
-    if (token && payout?.winnerId) {
-      try {
-        await fetch(`${API_BASE}/api/mark-payout-seen`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            winnerId: payout.winnerId
-          })
-        });
-      } catch (err) {
-        console.error("MARK PAYOUT SEEN ERROR:", err);
-      }
+    if (!token || !payout?.winnerId) {
+      onClose();
+      return;
     }
 
-    onClose();
+    try {
+      const res = await fetch(`${API_BASE}/api/mark-payout-seen`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          winnerId: payout.winnerId
+        })
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        console.error("MARK PAYOUT FAILED:", err);
+        return; // ❌ NU închidem popup-ul dacă nu s-a marcat
+      }
+
+      // ✅ DOAR aici e sigur
+      onClose();
+
+    } catch (err) {
+      console.error("MARK PAYOUT SEEN ERROR:", err);
+    }
   }
 
   return (
