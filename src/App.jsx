@@ -1,10 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Intro from "./Intro";
+import LoadingScreen from "./LoadingScreen";
 import ShiftRoom from "./ShiftRoom";
 import PayoutModal from "./PayoutModal";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 
+// ============================
+// FULLSCREEN WRAPPER
+// ============================
 const Fullscreen = ({ children }) => (
   <div
     style={{
@@ -18,6 +22,45 @@ const Fullscreen = ({ children }) => (
   </div>
 );
 
+// ============================
+// ASSET LIST (CRITICAL ONLY)
+// ============================
+const ASSETS = [
+  "/back.webm",
+  "/Wall.png",
+  "/Front.png",
+  "/Cup.png",
+  "/Order.png",
+  "/Shifter.gif",
+  "/game.webm",
+  "/mint.webm",
+  "/About.webm"
+];
+
+// ============================
+// PRELOAD FUNCTION
+// ============================
+function preloadAssets(list) {
+  return Promise.all(
+    list.map(src => {
+      return new Promise(resolve => {
+        if (src.endsWith(".webm") || src.endsWith(".mp4")) {
+          const v = document.createElement("video");
+          v.src = src;
+          v.muted = true;
+          v.onloadeddata = resolve;
+          v.onerror = resolve;
+        } else {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = resolve;
+        }
+      });
+    })
+  );
+}
+
 export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
@@ -29,64 +72,73 @@ export default function App() {
   const API_BASE = process.env.REACT_APP_API_BASE;
   const { width, height } = useWindowSize();
 
-  // =================================================
-  // 🔥 CHECK UNSEEN PAYOUT (o singură dată la load)
-  // =================================================
-  useEffect(() => {
+  // ============================
+  // CHECK UNSEEN PAYOUT (ONCE)
+  // ============================
+  async function checkUnseenPayout() {
     const token = localStorage.getItem("shift_token");
     if (!API_BASE || !token) return;
 
-    async function checkUnseenPayout() {
-      try {
-        const res = await fetch(`${API_BASE}/api/my-unseen-payout`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+    try {
+      const res = await fetch(`${API_BASE}/api/my-unseen-payout`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
-        if (!res.ok) return;
+      if (!res.ok) return;
 
-        const data = await res.json();
-        if (!data) return;
+      const data = await res.json();
+      if (!data) return;
 
-        // 👉 afișăm payout
-        setPayoutPopup({
-          winnerId: data.winnerId,
-          amount: data.amount,
-          roundId: data.roundId
-        });
+      setPayoutPopup({
+        winnerId: data.winnerId,
+        amount: data.amount,
+        roundId: data.roundId
+      });
 
-        // 🎆 confetti
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 6000);
-
-      } catch (err) {
-        console.error("CHECK UNSEEN PAYOUT ERROR:", err);
-      }
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 6000);
+    } catch (err) {
+      console.error("CHECK UNSEEN PAYOUT ERROR:", err);
     }
+  }
 
-    checkUnseenPayout();
-  }, [API_BASE]);
-
-  // =================================================
-  // INTRO → SHIFT
-  // =================================================
+  // ============================
+  // INTRO
+  // ============================
   if (phase === "intro") {
     return (
       <Fullscreen>
-        <Intro onStart={() => setPhase("shift")} />
+        <Intro
+          onStart={async () => {
+            setPhase("loading");
+            await preloadAssets(ASSETS); // 🔥 AICI SE ÎNTÂMPLĂ MAGIA
+            await checkUnseenPayout();
+            setPhase("shift");
+          }}
+        />
       </Fullscreen>
     );
   }
 
-  // =================================================
-  // 🔥 SHIFT SCENE
-  // =================================================
+  // ============================
+  // LOADING (REAL)
+  // ============================
+  if (phase === "loading") {
+    return (
+      <Fullscreen>
+        <LoadingScreen />
+      </Fullscreen>
+    );
+  }
+
+  // ============================
+  // SHIFT SCENE
+  // ============================
   return (
     <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* 🎆 CONFETTI – PESTE TOT */}
+      {/* 🎆 CONFETTI */}
       {showConfetti && (
         <Confetti
           width={width}
@@ -113,7 +165,7 @@ export default function App() {
         />
       )}
 
-      {/* 🔔 TOAST GLOBAL */}
+      {/* 🔔 TOAST */}
       {toast && (
         <div
           style={{
