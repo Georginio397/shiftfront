@@ -19,7 +19,7 @@ body,
 
 @font-face {
   font-family: "PixelifySans";
-  src: url("/fonts/PixelifySans.ttf") format("truetype");
+  src: url("/public/fonts/PixelifySans.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
