@@ -1,0 +1,52 @@
+.payout-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .payout-box {
+    background: #111;
+    border: 3px solid #f5c542;
+    padding: 40px 60px;
+    text-align: center;
+    border-radius: 16px;
+    animation: pop 0.35s ease-out;
+  }
+  
+  .payout-box h1 {
+    color: #f5c542;
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+  
+  .payout-box .amount {
+    font-size: 48px;
+    color: #00ff88;
+    margin-bottom: 30px;
+  }
+  
+  .payout-box button {
+    background: #f5c542;
+    color: #000;
+    border: none;
+    padding: 14px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  @keyframes pop {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  

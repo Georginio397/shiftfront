@@ -26,6 +26,10 @@ const gameHoverRef = useRef(null);
 const mintHoverRef = useRef(null);
 const [contractVisible, setContractVisible] = useState(false);
 const [copied, setCopied] = useState(false);
+const [payoutPopup, setPayoutPopup] = useState(null);
+const lastPayoutIdRef = useRef(null);
+
+
 const MINT_LINK = "https://launchmynft.io/collections/CWvZc3jpLuD4gUXZ4u13brwyh1GfXNA4VU8YtTbQR7Td/VE9lKalzNceeqyR8TPrT";
 
 
@@ -105,6 +109,49 @@ function toggleContract() {
     window.addEventListener("mousemove", move);
     return () => window.removeEventListener("mousemove", move);
   }, [gameOpen]);
+  
+  useEffect(() => {
+    const API_BASE = process.env.REACT_APP_API_BASE;
+    const token = localStorage.getItem("shift_token");
+    const currentUserId = localStorage.getItem("shift_user_id");
+  
+    if (!API_BASE || !token || !currentUserId) return;
+  
+    async function checkPayout() {
+      try {
+        const res = await fetch(`${API_BASE}/api/last-winners`);
+        const data = await res.json();
+  
+        if (!Array.isArray(data) || data.length === 0) return;
+  
+        const latest = data[0];
+  
+        // ❌ deja procesat
+        if (lastPayoutIdRef.current === latest._id) return;
+  
+        lastPayoutIdRef.current = latest._id;
+  
+        // ✅ AICI este exact bucata ta
+        if (latest.userId === currentUserId) {
+          setPayoutPopup({
+            amount: latest.amount,
+            roundId: latest.roundId
+          });
+        } else {
+          // payout pentru alt jucător → toast mic
+          onToast(`🏆 ${latest.username} got paid $${latest.amount}!`);
+        }
+  
+      } catch (err) {
+        console.error("PAYOUT CHECK ERROR:", err);
+      }
+    }
+  
+    checkPayout(); // rulează imediat
+    const interval = setInterval(checkPayout, 5000);
+  
+    return () => clearInterval(interval);
+  }, [onToast]);
   
   
 
@@ -456,6 +503,14 @@ function toggleContract() {
 
       {/* ABOUT MODAL */}
       <AboutModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
+
+      {payoutPopup && (
+  <PayoutModal
+    amount={payoutPopup.amount}
+    onClose={() => setPayoutPopup(null)}
+  />
+)}
+
 
       {/* LEADERBOARD + FRAME */}
       <div className="lb-frame">
