@@ -74,6 +74,34 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem("shift_token");
+    if (!token) return;
+  
+    async function checkUnseenPayout() {
+      const res = await fetch(`${API_BASE}/api/my-unseen-payout`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+  
+      if (!res.ok) return;
+  
+      const data = await res.json();
+      if (!data) return;
+  
+      setPayoutPopup({
+        winnerId: latest._id,
+        amount: latest.amount,
+        roundId: latest.roundId
+      });
+      
+    }
+  
+    checkUnseenPayout();
+  }, []);
+  
+
   // =================================================
   // FLOW INTRO → LOADING → SHIFT
   // =================================================
