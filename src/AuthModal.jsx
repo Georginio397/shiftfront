@@ -80,8 +80,10 @@ export default function AuthModal({ onClose, onSuccess }) {
         throw new Error(data?.error || "Authentication failed");
       }
 
-      localStorage.setItem("shift_username", username);
       localStorage.setItem("shift_token", data.token);
+      localStorage.setItem("shift_username", data.user.username);
+      localStorage.setItem("shift_user_id", data.user.id);
+      
 
       onSuccess();
       onClose();
