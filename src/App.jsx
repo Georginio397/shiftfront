@@ -3,6 +3,8 @@ import Intro from "./Intro";
 import LoadingScreen from "./LoadingScreen";
 import ShiftRoom from "./ShiftRoom";
 import PayoutModal from "./PayoutModal";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const Fullscreen = ({ children }) => (
   <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
@@ -13,12 +15,16 @@ const Fullscreen = ({ children }) => (
 export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
+
+  // 🔥 PAYOUT STATE
   const [payoutPopup, setPayoutPopup] = useState(null);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const API_BASE = process.env.REACT_APP_API_BASE;
+  const { width, height } = useWindowSize();
 
   // =================================================
-  // 🔥 CHECK UNSEEN PAYOUT (O SINGURĂ DATĂ)
+  // 🔥 CHECK UNSEEN PAYOUT (RULEAZĂ O SINGURĂ DATĂ)
   // =================================================
   useEffect(() => {
     const token = localStorage.getItem("shift_token");
@@ -37,11 +43,19 @@ export default function App() {
         const data = await res.json();
         if (!data) return;
 
+        // 💸 afișăm modal + confetti
         setPayoutPopup({
-          winnerId: data.winnerId,
+          winnerId: data._id,
           amount: data.amount,
           roundId: data.roundId
         });
+
+        setShowConfetti(true);
+
+        // ⏱️ confetti 6 secunde
+        setTimeout(() => {
+          setShowConfetti(false);
+        }, 6000);
 
       } catch (err) {
         console.error("CHECK UNSEEN PAYOUT ERROR:", err);
@@ -77,7 +91,26 @@ export default function App() {
     <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* 💸 PAYOUT MODAL – apare DOAR dacă există unseen payout */}
+      {/* 🎆 CONFETTI – PESTE TOT */}
+      {showConfetti && (
+        <Confetti
+          width={width}
+          height={height}
+          numberOfPieces={700}
+          gravity={0.25}
+          initialVelocityY={20}
+          recycle={false}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            zIndex: 9999999,
+            pointerEvents: "none"
+          }}
+        />
+      )}
+
+      {/* 💸 PAYOUT MODAL */}
       {payoutPopup && (
         <PayoutModal
           payout={payoutPopup}
@@ -85,7 +118,7 @@ export default function App() {
         />
       )}
 
-      {/* 🔔 GLOBAL TOAST (pentru mesaje mici) */}
+      {/* 🔔 GLOBAL TOAST */}
       {toast && (
         <div
           style={{
