@@ -6,7 +6,8 @@ import GameModal from "./GameModal";
 import Leaderboard from "./Leaderboard";
 import AuthModal from "./AuthModal";
 import AboutModal from "./AboutModal";
-import { setScenePaused } from "./performanceController";
+import { setScenePaused, setPerformanceMode } from "./performanceController";
+
 
 
 
