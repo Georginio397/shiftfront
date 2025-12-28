@@ -1,17 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Intro from "./Intro";
 import LoadingScreen from "./LoadingScreen";
 import ShiftRoom from "./ShiftRoom";
 import PayoutModal from "./PayoutModal";
 
 const Fullscreen = ({ children }) => (
-  <div
-    style={{
-      width: "100vw",
-      height: "100vh",
-      overflow: "hidden"
-    }}
-  >
+  <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
     {children}
   </div>
 );
@@ -19,91 +13,43 @@ const Fullscreen = ({ children }) => (
 export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
+  const [payoutPopup, setPayoutPopup] = useState(null);
+
   const API_BASE = process.env.REACT_APP_API_BASE;
 
-  // 🔥 PAYOUT STATE (GLOBAL)
-  const [payoutPopup, setPayoutPopup] = useState(null);
-  const lastPayoutIdRef = useRef(null);
-  
-
   // =================================================
-  // GLOBAL PAYOUT POLLING (NU DISPARĂ NICIODATĂ)
+  // 🔥 CHECK UNSEEN PAYOUT (O SINGURĂ DATĂ)
   // =================================================
   useEffect(() => {
-    const API_BASE = process.env.REACT_APP_API_BASE;
     const token = localStorage.getItem("shift_token");
-    const currentUserId = localStorage.getItem("shift_user_id");
+    if (!API_BASE || !token) return;
 
-    if (!API_BASE || !token || !currentUserId) return;
-
-    async function checkPayout() {
+    async function checkUnseenPayout() {
       try {
-        const res = await fetch(`${API_BASE}/api/last-winners`);
+        const res = await fetch(`${API_BASE}/api/my-unseen-payout`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (!res.ok) return;
+
         const data = await res.json();
+        if (!data) return;
 
-        if (!Array.isArray(data) || data.length === 0) return;
-
-        const latest = data[0];
-
-        // ❌ deja procesat
-        if (lastPayoutIdRef.current === latest._id) return;
-        lastPayoutIdRef.current = latest._id;
-
-        // ✅ payout pentru userul curent → MODAL MARE
-        if (String(latest.userId) === String(currentUserId)) {
-          setPayoutPopup({
-            amount: latest.amount,
-            roundId: latest.roundId
-          });
-        } else {
-          // payout pentru altcineva → TOAST MIC
-          setToast({
-            title: "Payout",
-            message: `${latest.username} got paid $${latest.amount}`
-          });
-
-          // auto-dismiss toast
-          setTimeout(() => setToast(null), 4000);
-        }
+        setPayoutPopup({
+          winnerId: data.winnerId,
+          amount: data.amount,
+          roundId: data.roundId
+        });
 
       } catch (err) {
-        console.error("PAYOUT POLL ERROR:", err);
+        console.error("CHECK UNSEEN PAYOUT ERROR:", err);
       }
     }
 
-    checkPayout();
-    const interval = setInterval(checkPayout, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("shift_token");
-    if (!token) return;
-  
-    async function checkUnseenPayout() {
-      const res = await fetch(`${API_BASE}/api/my-unseen-payout`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-  
-      if (!res.ok) return;
-  
-      const data = await res.json();
-      if (!data) return;
-  
-      setPayoutPopup({
-        winnerId: latest._id,
-        amount: latest.amount,
-        roundId: latest.roundId
-      });
-      
-      
-    }
-  
     checkUnseenPayout();
-  }, []);
-  
+  }, [API_BASE]);
 
   // =================================================
   // FLOW INTRO → LOADING → SHIFT
@@ -131,16 +77,15 @@ export default function App() {
     <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* ✅ PAYOUT MODAL (CENTRAT, MARE) */}
+      {/* 💸 PAYOUT MODAL – apare DOAR dacă există unseen payout */}
       {payoutPopup && (
-  <PayoutModal
-    payout={payoutPopup}
-    onClose={() => setPayoutPopup(null)}
-  />
-)}
+        <PayoutModal
+          payout={payoutPopup}
+          onClose={() => setPayoutPopup(null)}
+        />
+      )}
 
-
-      {/* GLOBAL TOAST (rămâne exact ca înainte) */}
+      {/* 🔔 GLOBAL TOAST (pentru mesaje mici) */}
       {toast && (
         <div
           style={{
