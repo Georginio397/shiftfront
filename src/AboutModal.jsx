@@ -22,17 +22,40 @@ export default function AboutModal({ open, onClose }) {
         </p>
 
         <p className="about-text">
-          Our game is his daily routine turned into a challenge.
+          Our game turns his daily routine into a challenge.
           <br />
-          And the <b>555 NFTs?</b> His different moods throughout the shift.
+          And the <b>555 NFTs</b> represent his different moods throughout the shift.
         </p>
 
         <br />
-        <h2 className="about-title">Coming Soon</h2>
+
+        <h2 className="about-title">Rewards System</h2>
+
         <p className="about-text">
-        Exclusive rewards for top leaderboard players.
+          Every <b>5 minutes</b>, the shift resets.
           <br />
-          Keep grinding. Keep winning.
+          The <b>Top 3 players on the leaderboard</b> are automatically rewarded
+          based on performance.
+        </p>
+
+        <p className="about-text">
+          No randomness. No luck.
+          <br />
+          Just consistency, focus, and skill.
+        </p>
+
+        <p className="about-text">
+          This system is built as a real opportunity for newcomers —
+          <br />
+          a way to create an initial budget and discipline before stepping into trading.
+        </p>
+
+        <p className="about-text">
+          You don’t need experience.
+          <br />
+          You don’t need a big bankroll.
+          <br />
+          You just need to show up and keep grinding.
         </p>
 
         <button className="about-close" onClick={onClose}>
