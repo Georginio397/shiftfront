@@ -23,6 +23,7 @@ export default function App() {
   // 🔥 PAYOUT STATE (GLOBAL)
   const [payoutPopup, setPayoutPopup] = useState(null);
   const lastPayoutIdRef = useRef(null);
+  
 
   // =================================================
   // GLOBAL PAYOUT POLLING (NU DISPARĂ NICIODATĂ)
@@ -96,6 +97,7 @@ export default function App() {
         roundId: latest.roundId
       });
       
+      
     }
   
     checkUnseenPayout();
@@ -130,11 +132,12 @@ export default function App() {
 
       {/* ✅ PAYOUT MODAL (CENTRAT, MARE) */}
       {payoutPopup && (
-        <PayoutModal
-          amount={payoutPopup.amount}
-          onClose={() => setPayoutPopup(null)}
-        />
-      )}
+  <PayoutModal
+    payout={payoutPopup}
+    onClose={() => setPayoutPopup(null)}
+  />
+)}
+
 
       {/* GLOBAL TOAST (rămâne exact ca înainte) */}
       {toast && (
