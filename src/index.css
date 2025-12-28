@@ -1,43 +1,47 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* =========================
+   RESET + BASE
+========================= */
 
-@font-face {
-  font-family: "PixelifySans";
-  src: url("/public/fonts/PixelifySans.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
   background: #000;
-  overflow: hidden;
 }
 
+/* =========================
+   FONT
+========================= */
 
-
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: "PixelifySans", sans-serif;
-  
+@font-face {
+  font-family: "PixelifySans";
+  src: url("/fonts/PixelifySans.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
+/* =========================
+   BODY
+========================= */
 
+body {
+  font-family: "PixelifySans", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
+/* =========================
+   CODE (DEV ONLY)
+========================= */
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
 }

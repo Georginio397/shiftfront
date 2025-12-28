@@ -69,7 +69,7 @@ export default function App() {
   }, [API_BASE]);
 
   // =================================================
-  // INTRO → SHIFT (fără loading screen)
+  // INTRO → SHIFT
   // =================================================
   if (phase === "intro") {
     return (
@@ -86,7 +86,7 @@ export default function App() {
     <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* 🎆 CONFETTI – peste tot */}
+      {/* 🎆 CONFETTI – PESTE TOT */}
       {showConfetti && (
         <Confetti
           width={width}
