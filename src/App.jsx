@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import Intro from "./Intro";
-import LoadingScreen from "./LoadingScreen";
 import ShiftRoom from "./ShiftRoom";
 import PayoutModal from "./PayoutModal";
 import Confetti from "react-confetti";
-import { initPerformanceMode } from "./performanceController";
 import { useWindowSize } from "react-use";
 
 const Fullscreen = ({ children }) => (
-  <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
+  <div
+    style={{
+      width: "100vw",
+      height: "100vh",
+      overflow: "hidden",
+      background: "#000"
+    }}
+  >
     {children}
   </div>
 );
@@ -17,7 +22,7 @@ export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
 
-  // 🔥 PAYOUT STATE
+  // 💸 PAYOUT
   const [payoutPopup, setPayoutPopup] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -25,7 +30,7 @@ export default function App() {
   const { width, height } = useWindowSize();
 
   // =================================================
-  // 🔥 CHECK UNSEEN PAYOUT (RULEAZĂ O SINGURĂ DATĂ)
+  // 🔥 CHECK UNSEEN PAYOUT (o singură dată la load)
   // =================================================
   useEffect(() => {
     const token = localStorage.getItem("shift_token");
@@ -44,20 +49,16 @@ export default function App() {
         const data = await res.json();
         if (!data) return;
 
-        // 💸 afișăm modal + confetti
+        // 👉 afișăm payout
         setPayoutPopup({
           winnerId: data.winnerId,
           amount: data.amount,
           roundId: data.roundId
         });
-        
 
+        // 🎆 confetti
         setShowConfetti(true);
-
-        // ⏱️ confetti 6 secunde
-        setTimeout(() => {
-          setShowConfetti(false);
-        }, 6000);
+        setTimeout(() => setShowConfetti(false), 6000);
 
       } catch (err) {
         console.error("CHECK UNSEEN PAYOUT ERROR:", err);
@@ -68,20 +69,12 @@ export default function App() {
   }, [API_BASE]);
 
   // =================================================
-  // FLOW INTRO → LOADING → SHIFT
+  // INTRO → SHIFT (fără loading screen)
   // =================================================
   if (phase === "intro") {
     return (
       <Fullscreen>
-        <Intro onStart={() => setPhase("loading")} />
-      </Fullscreen>
-    );
-  }
-
-  if (phase === "loading") {
-    return (
-      <Fullscreen>
-        <LoadingScreen onLoaded={() => setPhase("shift")} />
+        <Intro onStart={() => setPhase("shift")} />
       </Fullscreen>
     );
   }
@@ -93,7 +86,7 @@ export default function App() {
     <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* 🎆 CONFETTI – PESTE TOT */}
+      {/* 🎆 CONFETTI – peste tot */}
       {showConfetti && (
         <Confetti
           width={width}
@@ -120,7 +113,7 @@ export default function App() {
         />
       )}
 
-      {/* 🔔 GLOBAL TOAST */}
+      {/* 🔔 TOAST GLOBAL */}
       {toast && (
         <div
           style={{
