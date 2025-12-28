@@ -46,10 +46,11 @@ export default function App() {
 
         // 💸 afișăm modal + confetti
         setPayoutPopup({
-          winnerId: data._id,
+          winnerId: data.winnerId,
           amount: data.amount,
           roundId: data.roundId
         });
+        
 
         setShowConfetti(true);
 
