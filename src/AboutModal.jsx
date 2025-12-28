@@ -29,7 +29,7 @@ export default function AboutModal({ open, onClose }) {
 
         <br />
 
-        <h2 className="about-title">Rewards System</h2>
+        <h2 className="about-title">Get Paid for Your Work</h2>
 
         <p className="about-text">
           Every <b>5 minutes</b>, the shift resets.
@@ -45,7 +45,7 @@ export default function AboutModal({ open, onClose }) {
         </p>
 
         <p className="about-text">
-          This system is built as a real opportunity for newcomers —
+          This system is built as a real opportunity for newcomers
           <br />
           a way to create an initial budget and discipline before stepping into trading.
         </p>
