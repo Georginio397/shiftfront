@@ -27,6 +27,31 @@ body.game-active .scene {
   pointer-events: auto;
 }
 
+.performance-toggle {
+  position: fixed;
+  left: 18px;
+  bottom: 90px;
+  z-index: 999999;
+
+  background: rgba(0,0,0,0.75);
+  border: 1px solid #444;
+  color: #eee;
+
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: 8px;
+
+  cursor: pointer;
+  user-select: none;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s ease;
+}
+
+.performance-toggle:hover {
+  background: rgba(0,0,0,0.9);
+  transform: scale(1.05);
+}
+
 
 .scene {
   position: relative;

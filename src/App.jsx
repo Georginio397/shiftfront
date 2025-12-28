@@ -4,6 +4,7 @@ import LoadingScreen from "./LoadingScreen";
 import ShiftRoom from "./ShiftRoom";
 import PayoutModal from "./PayoutModal";
 import Confetti from "react-confetti";
+import { initPerformanceMode } from "./performanceController";
 import { useWindowSize } from "react-use";
 
 const Fullscreen = ({ children }) => (
@@ -16,7 +17,7 @@ export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
 
-  // 🔥 PAYOUT STATE
+  // 💸 PAYOUT
   const [payoutPopup, setPayoutPopup] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -24,11 +25,20 @@ export default function App() {
   const { width, height } = useWindowSize();
 
   // =================================================
-  // 🔥 CHECK UNSEEN PAYOUT (RULEAZĂ O SINGURĂ DATĂ)
+  // ⚡ INIT PERFORMANCE MODE (din localStorage)
+  // =================================================
+  useEffect(() => {
+    initPerformanceMode();
+  }, []);
+
+  // =================================================
+  // 💸 CHECK UNSEEN PAYOUT (O SINGURĂ DATĂ LA LOAD)
   // =================================================
   useEffect(() => {
     const token = localStorage.getItem("shift_token");
     if (!API_BASE || !token) return;
+
+    let cancelled = false;
 
     async function checkUnseenPayout() {
       try {
@@ -41,9 +51,9 @@ export default function App() {
         if (!res.ok) return;
 
         const data = await res.json();
-        if (!data) return;
+        if (!data || cancelled) return;
 
-        // 💸 afișăm modal + confetti
+        // 🔥 AFIȘĂM MODAL + CONFETTI
         setPayoutPopup({
           winnerId: data._id,
           amount: data.amount,
@@ -63,6 +73,9 @@ export default function App() {
     }
 
     checkUnseenPayout();
+    return () => {
+      cancelled = true;
+    };
   }, [API_BASE]);
 
   // =================================================
@@ -85,13 +98,13 @@ export default function App() {
   }
 
   // =================================================
-  // 🔥 SHIFT SCENE
+  // 🎮 SHIFT SCENE
   // =================================================
   return (
     <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* 🎆 CONFETTI – PESTE TOT */}
+      {/* 🎆 CONFETTI – PE PRIMUL PLAN */}
       {showConfetti && (
         <Confetti
           width={width}
@@ -104,7 +117,7 @@ export default function App() {
             position: "fixed",
             top: 0,
             left: 0,
-            zIndex: 9999999,
+            zIndex: 99999999,
             pointerEvents: "none"
           }}
         />

@@ -26,7 +26,9 @@ const gameHoverRef = useRef(null);
 const mintHoverRef = useRef(null);
 const [contractVisible, setContractVisible] = useState(false);
 const [copied, setCopied] = useState(false);
-
+const [perfMode, setPerfMode] = useState(
+  localStorage.getItem("performance_mode") === "1"
+);
 
 const MINT_LINK = "https://launchmynft.io/collections/CWvZc3jpLuD4gUXZ4u13brwyh1GfXNA4VU8YtTbQR7Td/VE9lKalzNceeqyR8TPrT";
 
@@ -44,7 +46,11 @@ useEffect(() => {
 }, [gameOpen, authOpen, aboutOpen]);
 
 
-
+function togglePerformance() {
+  const next = !perfMode;
+  setPerfMode(next);
+  setPerformanceMode(next);
+}
 
 function copyToClipboard(text) {
   // metoda modernă
