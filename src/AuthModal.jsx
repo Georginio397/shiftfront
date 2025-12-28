@@ -11,6 +11,17 @@ export default function AuthModal({ onClose, onSuccess }) {
 
   const API_BASE = process.env.REACT_APP_API_BASE;
 
+  function isValidSolanaAddress(address) {
+    // Base58 regex (fără 0 O I l)
+    const base58Regex = /^[1-9A-HJ-NP-Za-km-z]+$/;
+  
+    if (!address) return false;
+    if (address.length < 32 || address.length > 44) return false;
+    if (!base58Regex.test(address)) return false;
+  
+    return true;
+  }
+  
 
   function generatePass() {
     const pass = Math.random().toString(36).slice(2, 10);
@@ -30,10 +41,18 @@ export default function AuthModal({ onClose, onSuccess }) {
       return;
     }
 
-    if (!isLogin && !wallet) {
-      alert("Wallet address required for rewards.");
-      return;
+    if (!isLogin) {
+      if (!wallet) {
+        alert("Wallet address required for rewards.");
+        return;
+      }
+    
+      if (!isValidSolanaAddress(wallet)) {
+        alert("Invalid Solana wallet address.");
+        return;
+      }
     }
+    
     
 
     const endpoint = isLogin ? "/api/auth/login" : "/api/auth/signup";
@@ -110,11 +129,15 @@ export default function AuthModal({ onClose, onSuccess }) {
 
 {!isLogin && (
   <input
-    className="auth-input"
-    placeholder="Wallet address"
-    value={wallet}
-    onChange={(e) => setWallet(e.target.value.trim())}
-  />
+  className="auth-input"
+  placeholder="Solana wallet address"
+  value={wallet}
+  onChange={(e) => {
+    const val = e.target.value.trim();
+    setWallet(val);
+  }}
+/>
+
 )}
 
 
