@@ -29,41 +29,52 @@ export default function App() {
   useEffect(() => {
     const token = localStorage.getItem("shift_token");
     if (!API_BASE || !token) return;
-
-    async function checkUnseenPayout() {
+  
+    let polling = true;
+  
+    async function pollUnseenPayout() {
+      if (!polling) return;
+  
       try {
         const res = await fetch(`${API_BASE}/api/my-unseen-payout`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-
+  
         if (!res.ok) return;
-
+  
         const data = await res.json();
         if (!data) return;
-
-        // 💸 afișăm modal + confetti
-        setPayoutPopup({
-          winnerId: data._id,
-          amount: data.amount,
-          roundId: data.roundId
+  
+        // ❌ dacă popup e deja deschis → nu spamăm
+        setPayoutPopup(prev => {
+          if (prev?.winnerId === data._id) return prev;
+  
+          return {
+            winnerId: data._id,
+            amount: data.amount,
+            roundId: data.roundId
+          };
         });
-
-        setShowConfetti(true);
-
-        // ⏱️ confetti 6 secunde
-        setTimeout(() => {
-          setShowConfetti(false);
-        }, 6000);
-
+  
       } catch (err) {
-        console.error("CHECK UNSEEN PAYOUT ERROR:", err);
+        console.error("PAYOUT POLL ERROR:", err);
       }
     }
-
-    checkUnseenPayout();
+  
+    // 🔥 rulează imediat
+    pollUnseenPayout();
+  
+    // 🔁 apoi la fiecare 5 secunde
+    const interval = setInterval(pollUnseenPayout, 5000);
+  
+    return () => {
+      polling = false;
+      clearInterval(interval);
+    };
   }, [API_BASE]);
+  
 
   // =================================================
   // FLOW INTRO → LOADING → SHIFT
