@@ -6,8 +6,7 @@ import GameModal from "./GameModal";
 import Leaderboard from "./Leaderboard";
 import AuthModal from "./AuthModal";
 import AboutModal from "./AboutModal";
-import { setScenePaused, setPerformanceMode } from "./performanceController";
-
+import { setScenePaused } from "./performanceController";
 
 
 
@@ -27,9 +26,7 @@ const gameHoverRef = useRef(null);
 const mintHoverRef = useRef(null);
 const [contractVisible, setContractVisible] = useState(false);
 const [copied, setCopied] = useState(false);
-const [perfMode, setPerfMode] = useState(
-  localStorage.getItem("performance_mode") === "1"
-);
+
 
 const MINT_LINK = "https://launchmynft.io/collections/CWvZc3jpLuD4gUXZ4u13brwyh1GfXNA4VU8YtTbQR7Td/VE9lKalzNceeqyR8TPrT";
 
@@ -47,11 +44,7 @@ useEffect(() => {
 }, [gameOpen, authOpen, aboutOpen]);
 
 
-function togglePerformance() {
-  const next = !perfMode;
-  setPerfMode(next);
-  setPerformanceMode(next);
-}
+
 
 function copyToClipboard(text) {
   // metoda modernă
@@ -209,19 +202,6 @@ function toggleContract() {
   src={isMuted ? "/sound_off.gif" : "/sound_on.gif"}
   className="sound-icon"
 />
-
-{/* PERFORMANCE TOGGLE – RIGHT BOTTOM */}
-<div
-  className="performance-toggle"
-  onClick={togglePerformance}
-  title="Performance Mode"
->
-  <img
-    src={perfMode ? "/perf_on.gif" : "/perf_off.gif"}
-    alt="Performance"
-  />
-</div>
-
 
 </div>
 
