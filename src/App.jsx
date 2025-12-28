@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Intro from "./Intro";
 import LoadingScreen from "./LoadingScreen";
 import ShiftRoom from "./ShiftRoom";
+import PayoutModal from "./PayoutModal";
 
 const Fullscreen = ({ children }) => (
   <div
@@ -19,6 +20,63 @@ export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
 
+  // 🔥 PAYOUT STATE (GLOBAL)
+  const [payoutPopup, setPayoutPopup] = useState(null);
+  const lastPayoutIdRef = useRef(null);
+
+  // =================================================
+  // GLOBAL PAYOUT POLLING (NU DISPARĂ NICIODATĂ)
+  // =================================================
+  useEffect(() => {
+    const API_BASE = process.env.REACT_APP_API_BASE;
+    const token = localStorage.getItem("shift_token");
+    const currentUserId = localStorage.getItem("shift_user_id");
+
+    if (!API_BASE || !token || !currentUserId) return;
+
+    async function checkPayout() {
+      try {
+        const res = await fetch(`${API_BASE}/api/last-winners`);
+        const data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) return;
+
+        const latest = data[0];
+
+        // ❌ deja procesat
+        if (lastPayoutIdRef.current === latest._id) return;
+        lastPayoutIdRef.current = latest._id;
+
+        // ✅ payout pentru userul curent → MODAL MARE
+        if (String(latest.userId) === String(currentUserId)) {
+          setPayoutPopup({
+            amount: latest.amount,
+            roundId: latest.roundId
+          });
+        } else {
+          // payout pentru altcineva → TOAST MIC
+          setToast({
+            title: "Payout",
+            message: `${latest.username} got paid $${latest.amount}`
+          });
+
+          // auto-dismiss toast
+          setTimeout(() => setToast(null), 4000);
+        }
+
+      } catch (err) {
+        console.error("PAYOUT POLL ERROR:", err);
+      }
+    }
+
+    checkPayout();
+    const interval = setInterval(checkPayout, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // =================================================
+  // FLOW INTRO → LOADING → SHIFT
+  // =================================================
   if (phase === "intro") {
     return (
       <Fullscreen>
@@ -35,12 +93,22 @@ export default function App() {
     );
   }
 
-  // 🔥 SHIFT
+  // =================================================
+  // 🔥 SHIFT SCENE
+  // =================================================
   return (
     <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* GLOBAL TOAST */}
+      {/* ✅ PAYOUT MODAL (CENTRAT, MARE) */}
+      {payoutPopup && (
+        <PayoutModal
+          amount={payoutPopup.amount}
+          onClose={() => setPayoutPopup(null)}
+        />
+      )}
+
+      {/* GLOBAL TOAST (rămâne exact ca înainte) */}
       {toast && (
         <div
           style={{
