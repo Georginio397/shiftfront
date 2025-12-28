@@ -17,7 +17,7 @@ export default function App() {
   const [phase, setPhase] = useState("intro");
   const [toast, setToast] = useState(null);
 
-  // 💸 PAYOUT
+  // 🔥 PAYOUT STATE
   const [payoutPopup, setPayoutPopup] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -25,20 +25,11 @@ export default function App() {
   const { width, height } = useWindowSize();
 
   // =================================================
-  // ⚡ INIT PERFORMANCE MODE (din localStorage)
-  // =================================================
-  useEffect(() => {
-    initPerformanceMode();
-  }, []);
-
-  // =================================================
-  // 💸 CHECK UNSEEN PAYOUT (O SINGURĂ DATĂ LA LOAD)
+  // 🔥 CHECK UNSEEN PAYOUT (RULEAZĂ O SINGURĂ DATĂ)
   // =================================================
   useEffect(() => {
     const token = localStorage.getItem("shift_token");
     if (!API_BASE || !token) return;
-
-    let cancelled = false;
 
     async function checkUnseenPayout() {
       try {
@@ -51,9 +42,9 @@ export default function App() {
         if (!res.ok) return;
 
         const data = await res.json();
-        if (!data || cancelled) return;
+        if (!data) return;
 
-        // 🔥 AFIȘĂM MODAL + CONFETTI
+        // 💸 afișăm modal + confetti
         setPayoutPopup({
           winnerId: data._id,
           amount: data.amount,
@@ -73,9 +64,6 @@ export default function App() {
     }
 
     checkUnseenPayout();
-    return () => {
-      cancelled = true;
-    };
   }, [API_BASE]);
 
   // =================================================
@@ -98,13 +86,13 @@ export default function App() {
   }
 
   // =================================================
-  // 🎮 SHIFT SCENE
+  // 🔥 SHIFT SCENE
   // =================================================
   return (
     <Fullscreen>
       <ShiftRoom onToast={setToast} />
 
-      {/* 🎆 CONFETTI – PE PRIMUL PLAN */}
+      {/* 🎆 CONFETTI – PESTE TOT */}
       {showConfetti && (
         <Confetti
           width={width}
@@ -117,7 +105,7 @@ export default function App() {
             position: "fixed",
             top: 0,
             left: 0,
-            zIndex: 99999999,
+            zIndex: 9999999,
             pointerEvents: "none"
           }}
         />
