@@ -210,6 +210,19 @@ function toggleContract() {
   className="sound-icon"
 />
 
+{/* PERFORMANCE TOGGLE – RIGHT BOTTOM */}
+<div
+  className="performance-toggle"
+  onClick={togglePerformance}
+  title="Performance Mode"
+>
+  <img
+    src={perfMode ? "/perf_on.gif" : "/perf_off.gif"}
+    alt="Performance"
+  />
+</div>
+
+
 </div>
 
       {/* WORKER BADGE */}
