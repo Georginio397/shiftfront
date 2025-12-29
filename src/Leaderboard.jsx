@@ -116,7 +116,7 @@ export default function Leaderboard({ onToast }) {
           style={{ cursor: "pointer", opacity: activeTab === "winners" ? 1 : 0.5 }}
           onClick={() => setActiveTab("winners")}
         >
-          💸 Last Winners
+          💸 Payouts
         </h3>
       </div>
 
