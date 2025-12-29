@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./stackburger.css";
 
 export default function StackBurgerGame() {
