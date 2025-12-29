@@ -251,7 +251,7 @@ function toggleContract() {
     </>
   ) : (
     <div className="name-badge">
-      👷 Worker:
+       Worker:
       <button className="logout-btn" onClick={() => setAuthOpen(true)}>
         Login
       </button>
