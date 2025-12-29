@@ -12,7 +12,8 @@ export default function StackBurgerGame() {
   const [gameOver, setGameOver] = useState(false);
 
   const BLOCK_HEIGHT = 20;
-  const MAX_VISIBLE_HEIGHT = 300;
+  const VIEW_HEIGHT = MAX_VISIBLE_HEIGHT;
+  const SOFT_SHIFT_START = VIEW_HEIGHT * 0.55;
   const AREA_WIDTH = 360;
   const API_BASE = process.env.REACT_APP_API_BASE;
 
@@ -193,10 +194,12 @@ export default function StackBurgerGame() {
       }
     ];
 
-    if (newBlocks[newBlocks.length - 1].bottom > MAX_VISIBLE_HEIGHT) {
+    if (newBlock.bottom > SOFT_SHIFT_START) {
+      const overflow = newBlock.bottom - SOFT_SHIFT_START;
+    
       newBlocks = newBlocks.map(b => ({
         ...b,
-        bottom: b.bottom - BLOCK_HEIGHT
+        bottom: b.bottom - overflow
       }));
     }
 
