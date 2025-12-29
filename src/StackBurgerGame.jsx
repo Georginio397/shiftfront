@@ -290,7 +290,7 @@ export default function StackBurgerGame() {
 
       {!gameOver ? (
        <button
-       className="stack-btn"
+       className="stack-btn arcade"
        onClick={() => {
          unlockAudioOnce();
          dropBlock();
