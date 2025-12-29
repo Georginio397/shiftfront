@@ -486,10 +486,16 @@ function toggleContract() {
         <AuthModal
           onClose={() => setAuthOpen(false)}
           onSuccess={() => {
-            setNickname(localStorage.getItem("shift_username"));
+            const username = localStorage.getItem("shift_username");
+            const wallet = localStorage.getItem("shift_wallet");
+          
+            setNickname(username);
+            setWallet(wallet);
+          
             setAuthOpen(false);
             setGameOpen(true);
           }}
+          
         />
       )}
 
