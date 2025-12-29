@@ -2,7 +2,7 @@
   width: 360px;
   text-align: center;
   font-family: "Pixelify Sans", Arial, sans-serif;
-  background: url("/cabinet.PNG") no-repeat center;
+  background: url("/public/cabinet.PNG") no-repeat center;
   color: #fff;
   user-select: none;
 }
