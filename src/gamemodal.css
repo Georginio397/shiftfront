@@ -10,8 +10,9 @@
   
   .modal-content {
     background: url("/public/cabinet.PNG") no-repeat center;
+    background-size: contain;
     border-radius: 12px;
-    padding: 20px 30px;
+    padding: 0;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     position: relative;
     animation: pop 0.2s ease-out;
