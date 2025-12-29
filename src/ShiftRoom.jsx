@@ -219,10 +219,11 @@ function toggleContract() {
 </div>
 
       {/* WORKER BADGE */}
-      <div className="name-badge">
+   {/* WORKER BADGE */}
+<div className="worker-ui">
   {nickname ? (
     <>
-      <div className="worker-row">
+      <div className="name-badge">
         👷 Worker: <span>{nickname}</span>
 
         <button
@@ -240,7 +241,7 @@ function toggleContract() {
 
       {wallet && (
         <div
-          className="worker-wallet"
+          className="wallet-chip"
           title={wallet}
           onClick={() => copyToClipboard(wallet)}
         >
@@ -249,11 +250,15 @@ function toggleContract() {
       )}
     </>
   ) : (
-    <button className="logout-btn" onClick={() => setAuthOpen(true)}>
-      👷 Worker: Login
-    </button>
+    <div className="name-badge">
+      👷 Worker:
+      <button className="logout-btn" onClick={() => setAuthOpen(true)}>
+        Login
+      </button>
+    </div>
   )}
 </div>
+
 
 
       
