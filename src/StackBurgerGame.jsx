@@ -234,6 +234,7 @@ export default function StackBurgerGame() {
   return (
     <div className="stack-container">
       <h3>🍔 Stack The Burger</h3>
+      
 
       <div className={`stack-area ${shake ? "shake" : ""}`}>
         <div className="score-bar">
