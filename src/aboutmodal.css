@@ -135,6 +135,20 @@
   transform: scale(1.05);
 }
 
+.solscan-link {
+  color: #ffd66b;
+  font-weight: bold;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(255, 214, 107, 0.6);
+  transition: 0.2s ease;
+}
+
+.solscan-link:hover {
+  color: #fff1b8;
+  border-bottom-color: #fff1b8;
+}
+
+
 /* MOBILE */
 @media (max-width: 900px) {
   .about-grid {

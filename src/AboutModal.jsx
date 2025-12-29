@@ -76,9 +76,17 @@ export default function AboutModal({ open, onClose }) {
             </div>
 
             <p className="about-text subtle">
-              Every payout is executed on-chain.
-              <br />
-              <b>Transaction proof available on Solscan.</b>
+            Every payout is executed <b>on-chain</b>.
+  <br />
+  Full transaction proof available on{" "}
+  <a
+    href="https://solscan.io/account/7YYM2FYn6q8d9GMMZNte3Vxfd6gCXMUYND29BtQh3Coc#transfers"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="solscan-link"
+  >
+    Solscan
+  </a>.
             </p>
           </div>
 
