@@ -7,15 +7,15 @@ export default function AboutModal({ open, onClose }) {
   return (
     <div className="about-overlay" onClick={onClose}>
       <motion.div
-        className="about-box"
+        className="about-box wide"
         onClick={(e) => e.stopPropagation()}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.25 }}
       >
-        <div className="about-grid with-divider">
+        <div className="about-grid">
 
-          {/* LEFT COLUMN */}
+          {/* ================= LEFT COLUMN ================= */}
           <div className="about-col left">
             <h2 className="about-title">Who is the Shift Guy?</h2>
 
@@ -31,17 +31,14 @@ export default function AboutModal({ open, onClose }) {
               And the <b>555 NFTs</b> represent his different moods throughout the shift.
             </p>
 
-            <p className="about-text muted">
+            <p className="about-text emphasis">
               No randomness. No luck.
               <br />
-              <b>Just consistency, focus, and skill.</b>
+              Just consistency, focus, and skill.
             </p>
           </div>
 
-          {/* DIVIDER */}
-          <div className="about-divider" />
-
-          {/* RIGHT COLUMN */}
+          {/* ================= RIGHT COLUMN ================= */}
           <div className="about-col right">
             <h2 className="about-title">Get Paid for Your Work</h2>
 
@@ -66,21 +63,22 @@ export default function AboutModal({ open, onClose }) {
               </div>
             </div>
 
-            <div className="stats-row">
+            <div className="payout-stats">
               <div className="stat-box">
-                <b>$240+</b>
-                <span>paid per hour</span>
+                <div className="stat-value">$240+</div>
+                <div className="stat-label">paid per hour</div>
               </div>
+
               <div className="stat-box">
-                <b>$5,000+</b>
-                <span>paid every 24h</span>
+                <div className="stat-value">$5,000+</div>
+                <div className="stat-label">paid every 24h</div>
               </div>
             </div>
 
-            <p className="about-text small">
-              Every payout is executed <b>on-chain</b>.
+            <p className="about-text subtle">
+              Every payout is executed on-chain.
               <br />
-              Full transaction proof available on <b>Solscan</b>.
+              <b>Transaction proof available on Solscan.</b>
             </p>
           </div>
 
