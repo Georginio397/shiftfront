@@ -14,7 +14,7 @@ export default function StackBurgerGame() {
   const BLOCK_HEIGHT = 20;
   const MAX_VISIBLE_HEIGHT = 300;
   const VIEW_HEIGHT = MAX_VISIBLE_HEIGHT;
-const SOFT_SHIFT_START = VIEW_HEIGHT * 0.75;
+const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
   const AREA_WIDTH = 360;
 
 
