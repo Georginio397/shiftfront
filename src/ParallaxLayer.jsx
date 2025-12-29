@@ -14,7 +14,7 @@ export default function ParallaxLayer({
     if (!el) return;
 
     // ✅ INITIAL transform (CRUCIAL)
-    el.style.transform = "translate(0px, 0px)";
+    el.style.transform = "translate(0px, 0px) scale(1.05)";
 
     function move(e) {
       if (isParallaxDisabled()) return;
@@ -27,7 +27,8 @@ export default function ParallaxLayer({
         y = -y;
       }
 
-      el.style.transform = `translate(${x}px, ${y}px)`;
+      el.style.transform =
+        `translate(${x}px, ${y}px) scale(1.05)`;
     }
 
     window.addEventListener("mousemove", move);
