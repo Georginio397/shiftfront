@@ -1,74 +1,59 @@
 /* ============================= */
-/*        OVERLAY + BLUR         */
+/*        BACKGROUND             */
 /* ============================= */
 
 .about-overlay {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
-
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(6px);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 999;
 }
 
 /* ============================= */
-/*          MODAL BOX            */
+/*        MODAL BOX              */
 /* ============================= */
 
 .about-box {
-  background: rgba(20, 20, 20, 0.88);
+  background: rgba(20, 20, 20, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 28px;
-  width: 480px;
+  width: 520px;
   max-width: 92vw;
-
-  border-radius: 16px;
+  border-radius: 14px;
   color: white;
   text-align: center;
-
-  box-shadow:
-    0 0 25px rgba(255, 255, 255, 0.12),
-    0 0 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 28px rgba(0, 0, 0, 0.6);
 }
 
 /* ============================= */
-/*            TITLES             */
+/*        TITLES & TEXT          */
 /* ============================= */
 
 .about-title {
   font-size: 26px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin: 18px 0 12px;
   color: #ffe9a6;
-  text-shadow: 0 0 8px rgba(255, 204, 102, 0.35);
 }
 
-/* ============================= */
-/*             TEXT              */
-/* ============================= */
-
 .about-text {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.55;
   margin-bottom: 14px;
-  color: #f2f2f2;
+  color: #eaeaea;
 }
 
 .about-text b {
-  color: #ffcc66;
+  color: #ffd66b;
 }
 
 .about-text.subtle {
-  font-size: 13px;
-  opacity: 0.75;
-  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.85;
 }
 
 /* ============================= */
@@ -79,14 +64,14 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 12px 0 16px;
+  margin: 14px 0 18px;
 }
 
 .payout-row {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 12px;
+  justify-content: center;
   font-size: 15px;
 }
 
@@ -94,88 +79,91 @@
   width: 26px;
   height: 26px;
   object-fit: contain;
-  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.35));
-}
-
-.payout-row span {
-  color: #f2f2f2;
 }
 
 /* ============================= */
-/*          PAYOUT STATS         */
+/*        2 COLUMN LAYOUT        */
+/* ============================= */
+
+.about-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.about-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ============================= */
+/*        STATS BOXES            */
 /* ============================= */
 
 .payout-stats {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.25);
-
   display: flex;
-  gap: 18px;
+  gap: 14px;
 }
 
 .stat-box {
-  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 10px 14px;
   text-align: center;
+  flex: 1;
 }
 
 .stat-value {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
-  color: #ffcc00;
-  text-shadow: 0 0 8px rgba(255, 204, 0, 0.35);
+  color: #ffcc66;
 }
 
 .stat-label {
-  margin-top: 4px;
   font-size: 12px;
-  opacity: 0.75;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  opacity: 0.85;
 }
 
 /* ============================= */
-/*         CLOSE BUTTON          */
+/*        CLOSE BUTTON           */
 /* ============================= */
 
 .about-close {
-  margin-top: 16px;
+  margin-top: 22px;
   background: #ffcc66;
   color: black;
   border: none;
-  padding: 10px 22px;
-
-  border-radius: 10px;
+  padding: 10px 20px;
+  border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-
   transition: 0.2s ease;
 }
 
 .about-close:hover {
   transform: scale(1.06);
   background: #ffe29e;
-  box-shadow: 0 0 12px rgba(255, 204, 102, 0.6);
 }
 
 /* ============================= */
-/*        RESPONSIVE FIX         */
+/*        RESPONSIVE             */
 /* ============================= */
 
-@media (max-width: 520px) {
-  .about-box {
-    padding: 22px;
+@media (max-width: 720px) {
+  .about-columns {
+    grid-template-columns: 1fr;
+    text-align: center;
   }
 
-  .about-title {
-    font-size: 22px;
+  .about-col {
+    align-items: center;
   }
 
-  .about-text {
-    font-size: 15px;
-  }
-
-  .stat-value {
-    font-size: 20px;
+  .payout-stats {
+    width: 100%;
   }
 }

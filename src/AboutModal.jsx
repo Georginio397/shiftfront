@@ -27,8 +27,6 @@ export default function AboutModal({ open, onClose }) {
           And the <b>555 NFTs</b> represent his different moods throughout the shift.
         </p>
 
-        <br />
-
         <h2 className="about-title">Get Paid for Your Work</h2>
 
         <p className="about-text">
@@ -38,7 +36,7 @@ export default function AboutModal({ open, onClose }) {
           based purely on performance.
         </p>
 
-        <p className="about-text">
+        <p className="about-text subtle">
           <b>Current payouts per cycle:</b>
         </p>
 
@@ -59,44 +57,54 @@ export default function AboutModal({ open, onClose }) {
           </div>
         </div>
 
-        {/* 🔥 STATS */}
-        <div className="payout-stats">
-          <div className="stat-box">
-            <div className="stat-value">$240+</div>
-            <div className="stat-label">paid per hour</div>
+        {/* ================= 2 COLUMNS ================= */}
+        <div className="about-columns">
+
+          {/* LEFT COLUMN */}
+          <div className="about-col">
+            <div className="payout-stats">
+              <div className="stat-box">
+                <div className="stat-value">$240+</div>
+                <div className="stat-label">paid per hour</div>
+              </div>
+
+              <div className="stat-box">
+                <div className="stat-value">$5,000+</div>
+                <div className="stat-label">paid every 24h</div>
+              </div>
+            </div>
+
+            <p className="about-text subtle">
+              Every payout is executed on-chain.
+              <br />
+              <b>Full transaction proof available on Solscan.</b>
+            </p>
           </div>
 
-          <div className="stat-box">
-            <div className="stat-value">$5,760+</div>
-            <div className="stat-label">paid every 24 hours</div>
+          {/* RIGHT COLUMN */}
+          <div className="about-col">
+            <p className="about-text">
+              No randomness. No luck.
+              <br />
+              Just consistency, focus, and skill.
+            </p>
+
+            <p className="about-text">
+              This system is built as a real opportunity for newcomers —
+              a way to create an initial budget and discipline
+              before stepping into trading.
+            </p>
+
+            <p className="about-text">
+              You don’t need experience.
+              <br />
+              You don’t need a big bankroll.
+              <br />
+              You just need to show up and keep grinding.
+            </p>
           </div>
+
         </div>
-
-        <p className="about-text subtle">
-          Rewards are distributed automatically every 5 minutes,
-          based purely on leaderboard performance.
-        </p>
-
-        <p className="about-text">
-          No randomness. No luck.
-          <br />
-          Just consistency, focus, and skill.
-        </p>
-
-        <p className="about-text">
-          This system is built as a real opportunity for newcomers —
-          <br />
-          a way to create an initial budget and discipline
-          before stepping into trading.
-        </p>
-
-        <p className="about-text">
-          You don’t need experience.
-          <br />
-          You don’t need a big bankroll.
-          <br />
-          You just need to show up and keep grinding.
-        </p>
 
         <button className="about-close" onClick={onClose}>
           Close
