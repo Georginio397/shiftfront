@@ -73,10 +73,12 @@ export default function StackBurgerGame() {
   /* ================= JUDGEMENT ================= */
   function getJudgement(diff, lastWidth) {
     const ratio = diff / lastWidth;
-    if (ratio < 0.05) return "PERFECT";
-    if (ratio < 0.25) return "GOOD";
+  
+    if (ratio < 0.12) return "PERFECT"; // ~12%
+    if (ratio < 0.45) return "GOOD";    // ~45%
     return "MISS";
   }
+  
 
   /* ================= DROP ================= */
   function dropBlock() {
@@ -174,6 +176,15 @@ export default function StackBurgerGame() {
             )}
           </span>
         </div>
+
+        {/* HEAT METER */}
+<div className="heat-bar">
+  <div
+    className="heat-fill"
+    style={{ width: `${heat}%` }}
+  />
+</div>
+
 
         {blocks.map((b, i) => (
           <img

@@ -30,6 +30,60 @@
   z-index: 5;
 }
 
+/* =============== HEAT METER =============== */
+.heat-bar {
+  position: absolute;
+  top: 58px; /* sub score bar */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 10px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 35;
+}
+
+.heat-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    #ffd84c,
+    #ff8c00,
+    #ff2d2d
+  );
+  transition: width 0.18s ease;
+}
+
+/* glow când heat e mare */
+.heat-fill[style*="8"], 
+.heat-fill[style*="9"], 
+.heat-fill[style*="100"] {
+  box-shadow:
+    0 0 8px rgba(255,80,0,0.7),
+    0 0 14px rgba(255,60,0,0.5);
+}
+
+.on-fire {
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #ff3b00;
+  text-shadow: 0 0 6px rgba(255,80,0,0.8);
+  animation: flicker 0.6s infinite alternate;
+  z-index: 40;
+}
+
+@keyframes flicker {
+  from { opacity: 0.6; }
+  to   { opacity: 1; }
+}
+
+
 /* blocul în mișcare */
 .burger-block.moving {
   z-index: 10;
