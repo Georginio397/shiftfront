@@ -25,6 +25,8 @@ export default function StackBurgerGame() {
   const [heat, setHeat] = useState(0);          // 0 → 100
   const [multiplier, setMultiplier] = useState(1);
   const soundsRef = useRef(null);
+  const audioUnlockedRef = useRef(false);
+
   
   useEffect(() => {
     soundsRef.current = {
@@ -98,6 +100,20 @@ export default function StackBurgerGame() {
     });
   }
   
+  function unlockAudioOnce() {
+    if (audioUnlockedRef.current) return;
+    if (!soundsRef.current) return;
+  
+    audioUnlockedRef.current = true;
+  
+    Object.values(soundsRef.current).forEach(sound => {
+      sound.play().then(() => {
+        sound.pause();
+        sound.currentTime = 0;
+      }).catch(() => {});
+    });
+  }
+  
 
   /* ================= JUDGEMENT ================= */
   function getJudgement(diff, lastWidth) {
@@ -116,7 +132,7 @@ export default function StackBurgerGame() {
 
   /* ================= DROP ================= */
   function dropBlock() {
-    unlockAudio();
+
     const last = blocks[blocks.length - 1];
     const diff = Math.abs(currentLeft - last.left);
     const result = getJudgement(diff, last.width);
@@ -273,7 +289,16 @@ export default function StackBurgerGame() {
       </div>
 
       {!gameOver ? (
-        <button className="stack-btn" onClick={dropBlock}>DROP</button>
+       <button
+       className="stack-btn"
+       onClick={() => {
+         unlockAudioOnce();
+         dropBlock();
+       }}
+     >
+       DROP
+     </button>
+     
       ) : (
         <button className="stack-btn" onClick={restart}>Restart</button>
       )}
