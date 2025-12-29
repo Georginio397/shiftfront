@@ -12,6 +12,8 @@
     background: url("/public/cabinet.PNG") no-repeat center;
     background-size: contain;
     border-radius: 12px;
+    width: 410px;
+    height: 640px;
     padding: 0;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     position: relative;
