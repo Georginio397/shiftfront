@@ -42,6 +42,16 @@ body.game-active .scene {
   overflow: hidden;
   position: relative;
 }
+.worker-wallet {
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.worker-wallet:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
 
 /* ============================= */
 /*          TOP MENU             */

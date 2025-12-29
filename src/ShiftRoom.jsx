@@ -26,6 +26,7 @@ const gameHoverRef = useRef(null);
 const mintHoverRef = useRef(null);
 const [contractVisible, setContractVisible] = useState(false);
 const [copied, setCopied] = useState(false);
+const [wallet, setWallet] = useState("");
 
 
 const MINT_LINK = "https://launchmynft.io/collections/CWvZc3jpLuD4gUXZ4u13brwyh1GfXNA4VU8YtTbQR7Td/VE9lKalzNceeqyR8TPrT";
@@ -44,6 +45,18 @@ useEffect(() => {
 }, [gameOpen, authOpen, aboutOpen]);
 
 
+function shortWallet(addr) {
+  if (!addr) return "";
+  return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+}
+
+useEffect(() => {
+  const savedName = localStorage.getItem("shift_username");
+  const savedWallet = localStorage.getItem("shift_wallet");
+
+  if (savedName) setNickname(savedName);
+  if (savedWallet) setWallet(savedWallet);
+}, []);
 
 
 function copyToClipboard(text) {
@@ -207,25 +220,44 @@ function toggleContract() {
 
       {/* WORKER BADGE */}
       <div className="name-badge">
-        👷 Worker: <span>{nickname || ""}</span>
+  {wallet ? (
+    <>
+      👷 Worker:{" "}
+      <span
+        className="worker-wallet"
+        title={wallet}
+        onClick={() => {
+          copyToClipboard(wallet);
+          onToast?.({
+            title: "Wallet copied",
+            message: "Address copied to clipboard"
+          });
+        }}
+      >
+        {shortWallet(wallet)}
+      </span>
 
-        {nickname ? (
-          <button
-            className="logout-btn"
-            onClick={() => {
-              localStorage.removeItem("shift_token");
-              localStorage.removeItem("shift_username");
-              window.location.reload();
-            }}
-          >
-            Logout
-          </button>
-        ) : (
-          <button className="logout-btn" onClick={() => setAuthOpen(true)}>
-             Login
-          </button>
-        )}
-      </div>
+      <button
+        className="logout-btn"
+        onClick={() => {
+          localStorage.removeItem("shift_token");
+          localStorage.removeItem("shift_username");
+          localStorage.removeItem("shift_wallet");
+          window.location.reload();
+        }}
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <button className="logout-btn" onClick={() => setAuthOpen(true)}>
+      👷 Worker: Login
+    </button>
+  )}
+</div>
+
+
+      
 
       {/* TOP MENU – 3 TELEVIZOARE */}
       <div className="security-camera">
