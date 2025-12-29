@@ -32,11 +32,33 @@ export default function AboutModal({ open, onClose }) {
         <h2 className="about-title">Get Paid for Your Work</h2>
 
         <p className="about-text">
-          Every <b>5 minutes</b>, the shift resets.
+          Every <b>5 minutes</b>, a shift cycle ends.
           <br />
-          The <b>Top 3 players on the leaderboard</b> are automatically rewarded
-          based on performance.
+          The <b>top players on the leaderboard</b> are rewarded automatically,
+          based purely on performance.
         </p>
+
+        <p className="about-text">
+  <b>Current payouts per cycle:</b>
+</p>
+
+<div className="payout-list">
+  <div className="payout-row">
+    <img src="/gold.png" alt="Top 1" />
+    <span><b>Top 1</b> — $10</span>
+  </div>
+
+  <div className="payout-row">
+    <img src="/silver.png" alt="Top 2" />
+    <span><b>Top 2</b> — $5</span>
+  </div>
+
+  <div className="payout-row">
+    <img src="/bronze.png" alt="Top 3" />
+    <span><b>Top 3</b> — $5</span>
+  </div>
+</div>
+
 
         <p className="about-text">
           No randomness. No luck.
@@ -45,9 +67,10 @@ export default function AboutModal({ open, onClose }) {
         </p>
 
         <p className="about-text">
-          This system is built as a real opportunity for newcomers
+          This system is built as a real opportunity for newcomers —
           <br />
-          a way to create an initial budget and discipline before stepping into trading.
+          a way to create an initial budget and discipline
+          before stepping into trading.
         </p>
 
         <p className="about-text">
