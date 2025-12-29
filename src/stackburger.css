@@ -299,3 +299,35 @@
     0 2px 0 #8a4f00;
 }
 
+/* =============== ARCADE RESTART BUTTON =============== */
+.stack-btn.arcade.restart {
+  color: #3a0f0f;
+
+  background: linear-gradient(
+    180deg,
+    #ff9a9a 0%,
+    #ff4c4c 55%,
+    #b81c1c 100%
+  );
+
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.45), /* highlight */
+    inset 0 -3px 0 rgba(90,0,0,0.6),       /* umbră jos */
+    0 6px 0 #7a1515;                      /* baza */
+}
+
+/* hover subtil */
+.stack-btn.arcade.restart:hover {
+  filter: brightness(1.04);
+}
+
+/* click = adâncire */
+.stack-btn.arcade.restart:active {
+  transform: translateY(4px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.35),
+    inset 0 -1px 0 rgba(90,0,0,0.7),
+    0 2px 0 #7a1515;
+}
+

@@ -300,7 +300,7 @@ export default function StackBurgerGame() {
      </button>
      
       ) : (
-        <button className="stack-btn" onClick={restart}>Restart</button>
+        <button className="stack-btn arcade restart" onClick={restart}>Restart</button>
       )}
     </div>
   );
