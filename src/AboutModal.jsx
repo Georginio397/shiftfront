@@ -7,61 +7,62 @@ export default function AboutModal({ open, onClose }) {
   return (
     <div className="about-overlay" onClick={onClose}>
       <motion.div
-        className="about-box"
+        className="about-box wide"
         onClick={(e) => e.stopPropagation()}
-        initial={{ opacity: 0, scale: 0.85 }}
+        initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.25 }}
       >
-        <h2 className="about-title">Who is the Shift Guy?</h2>
+        <div className="about-grid">
 
-        <p className="about-text">
-          A worker running on low sleep and pure determination.
-          <br />
-          He stacks burgers, fights the rush, and somehow keeps going.
-        </p>
+          {/* ================= LEFT COLUMN ================= */}
+          <div className="about-col left">
+            <h2 className="about-title">Who is the Shift Guy?</h2>
 
-        <p className="about-text">
-          Our game turns his daily routine into a challenge.
-          <br />
-          And the <b>555 NFTs</b> represent his different moods throughout the shift.
-        </p>
+            <p className="about-text">
+              A worker running on low sleep and pure determination.
+              <br />
+              He stacks burgers, fights the rush, and somehow keeps going.
+            </p>
 
-        <h2 className="about-title">Get Paid for Your Work</h2>
+            <p className="about-text">
+              Our game turns his daily routine into a challenge.
+              <br />
+              And the <b>555 NFTs</b> represent his different moods throughout the shift.
+            </p>
 
-        <p className="about-text">
-          Every <b>5 minutes</b>, a shift cycle ends.
-          <br />
-          The <b>top players on the leaderboard</b> are rewarded automatically,
-          based purely on performance.
-        </p>
-
-        <p className="about-text subtle">
-          <b>Current payouts per cycle:</b>
-        </p>
-
-        <div className="payout-list">
-          <div className="payout-row">
-            <img src="/gold.PNG" alt="Top 1" />
-            <span><b>Top 1</b> — $10</span>
+            <p className="about-text emphasis">
+              No randomness. No luck.
+              <br />
+              Just consistency, focus, and skill.
+            </p>
           </div>
 
-          <div className="payout-row">
-            <img src="/silver.PNG" alt="Top 2" />
-            <span><b>Top 2</b> — $5</span>
-          </div>
+          {/* ================= RIGHT COLUMN ================= */}
+          <div className="about-col right">
+            <h2 className="about-title">Get Paid for Your Work</h2>
 
-          <div className="payout-row">
-            <img src="/bronze.PNG" alt="Top 3" />
-            <span><b>Top 3</b> — $5</span>
-          </div>
-        </div>
+            <p className="about-text">
+              Every <b>5 minutes</b>, a shift cycle ends.
+              <br />
+              The <b>top players</b> are rewarded automatically.
+            </p>
 
-        {/* ================= 2 COLUMNS ================= */}
-        <div className="about-columns">
+            <div className="payout-list">
+              <div className="payout-row">
+                <img src="/gold.PNG" alt="Top 1" />
+                <span><b>Top 1</b> — $10</span>
+              </div>
+              <div className="payout-row">
+                <img src="/silver.PNG" alt="Top 2" />
+                <span><b>Top 2</b> — $5</span>
+              </div>
+              <div className="payout-row">
+                <img src="/bronze.PNG" alt="Top 3" />
+                <span><b>Top 3</b> — $5</span>
+              </div>
+            </div>
 
-          {/* LEFT COLUMN */}
-          <div className="about-col">
             <div className="payout-stats">
               <div className="stat-box">
                 <div className="stat-value">$240+</div>
@@ -77,30 +78,7 @@ export default function AboutModal({ open, onClose }) {
             <p className="about-text subtle">
               Every payout is executed on-chain.
               <br />
-              <b>Full transaction proof available on Solscan.</b>
-            </p>
-          </div>
-
-          {/* RIGHT COLUMN */}
-          <div className="about-col">
-            <p className="about-text">
-              No randomness. No luck.
-              <br />
-              Just consistency, focus, and skill.
-            </p>
-
-            <p className="about-text">
-              This system is built as a real opportunity for newcomers —
-              a way to create an initial budget and discipline
-              before stepping into trading.
-            </p>
-
-            <p className="about-text">
-              You don’t need experience.
-              <br />
-              You don’t need a big bankroll.
-              <br />
-              You just need to show up and keep grinding.
+              <b>Transaction proof available on Solscan.</b>
             </p>
           </div>
 

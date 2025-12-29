@@ -1,11 +1,7 @@
-/* ============================= */
-/*        BACKGROUND             */
-/* ============================= */
-
 .about-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0,0,0,0.65);
   backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
@@ -13,38 +9,51 @@
   z-index: 999;
 }
 
-/* ============================= */
-/*        MODAL BOX              */
-/* ============================= */
-
-.about-box {
-  background: rgba(20, 20, 20, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 28px;
-  width: 520px;
-  max-width: 92vw;
-  border-radius: 14px;
+.about-box.wide {
+  width: 820px;
+  max-width: 95vw;
+  background: rgba(18,18,18,0.92);
+  border-radius: 16px;
+  padding: 26px 30px 22px;
   color: white;
-  text-align: center;
-  box-shadow: 0 0 28px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
 }
 
-/* ============================= */
-/*        TITLES & TEXT          */
-/* ============================= */
+/* MAIN GRID */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+}
 
+/* COLUMNS */
+.about-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.about-col.left {
+  padding-right: 10px;
+}
+
+.about-col.right {
+  padding-left: 10px;
+}
+
+/* TITLES */
 .about-title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
-  margin: 18px 0 12px;
   color: #ffe9a6;
+  margin-bottom: 6px;
 }
 
+/* TEXT */
 .about-text {
   font-size: 15px;
-  line-height: 1.55;
-  margin-bottom: 14px;
-  color: #eaeaea;
+  line-height: 1.5;
+  color: #e6e6e6;
 }
 
 .about-text b {
@@ -52,73 +61,53 @@
 }
 
 .about-text.subtle {
-  font-size: 14px;
+  font-size: 13px;
   opacity: 0.85;
 }
 
-/* ============================= */
-/*        PAYOUT LIST            */
-/* ============================= */
+.about-text.emphasis {
+  margin-top: 10px;
+  font-weight: 600;
+}
 
+/* PAYOUT LIST */
 .payout-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 14px 0 18px;
+  gap: 8px;
+  margin: 6px 0 10px;
 }
 
 .payout-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  justify-content: center;
-  font-size: 15px;
+  gap: 10px;
+  font-size: 14px;
 }
 
 .payout-row img {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
+  width: 22px;
+  height: 22px;
 }
 
-/* ============================= */
-/*        2 COLUMN LAYOUT        */
-/* ============================= */
-
-.about-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  margin-top: 16px;
-  text-align: left;
-}
-
-.about-col {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* ============================= */
-/*        STATS BOXES            */
-/* ============================= */
-
+/* STATS */
 .payout-stats {
   display: flex;
-  gap: 14px;
+  gap: 12px;
+  margin: 10px 0;
 }
 
 .stat-box {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  padding: 10px 14px;
-  text-align: center;
   flex: 1;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
 }
 
 .stat-value {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: #ffcc66;
 }
@@ -128,42 +117,27 @@
   opacity: 0.85;
 }
 
-/* ============================= */
-/*        CLOSE BUTTON           */
-/* ============================= */
-
+/* CLOSE */
 .about-close {
-  margin-top: 22px;
+  margin: 18px auto 0;
+  display: block;
   background: #ffcc66;
   color: black;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s ease;
 }
 
 .about-close:hover {
-  transform: scale(1.06);
   background: #ffe29e;
+  transform: scale(1.05);
 }
 
-/* ============================= */
-/*        RESPONSIVE             */
-/* ============================= */
-
-@media (max-width: 720px) {
-  .about-columns {
+/* MOBILE */
+@media (max-width: 900px) {
+  .about-grid {
     grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .about-col {
-    align-items: center;
-  }
-
-  .payout-stats {
-    width: 100%;
   }
 }
