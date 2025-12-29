@@ -92,7 +92,7 @@ export default function AboutModal({ open, onClose }) {
 
         </div>
 
-        <button className="about-close" onClick={onClose}>
+        <button className="about-close arcade-close" onClick={onClose}>
           Close
         </button>
       </motion.div>

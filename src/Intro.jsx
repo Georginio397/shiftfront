@@ -47,7 +47,7 @@ export default function Intro({ onStart }) {
       </motion.h1>
 
       <motion.button
-        className="intro-btn"
+        className="intro-btn arcade-intro"
         onClick={startShift}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

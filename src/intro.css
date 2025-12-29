@@ -79,3 +79,57 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* =============== INTRO START BUTTON (3D ARCADE) =============== */
+.intro-btn.arcade-intro {
+  padding: 14px 38px;
+  min-width: 220px;
+  height: 56px;
+
+  font-family: "Pixelify Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  color: #3b2200;
+
+  background: linear-gradient(
+    180deg,
+    #ffe4a3 0%,
+    #ffcc66 55%,
+    #d99a2b 100%
+  );
+
+  border: none;
+  border-radius: 14px;
+
+  /* 3D PERMANENT */
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.45), /* highlight sus */
+    inset 0 -3px 0 rgba(120,60,0,0.55),   /* umbră jos */
+    0 7px 0 #8a5a12;                      /* baza */
+
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease,
+    filter 0.08s ease;
+}
+
+/* hover FOARTE subtil */
+.intro-btn.arcade-intro:hover {
+  filter: brightness(1.05);
+}
+
+/* click = adâncire mecanică */
+.intro-btn.arcade-intro:active {
+  transform: translateY(5px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.35),
+    inset 0 -1px 0 rgba(120,60,0,0.65),
+    0 3px 0 #8a5a12;
+}
