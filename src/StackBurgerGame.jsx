@@ -24,6 +24,13 @@ export default function StackBurgerGame() {
   const [score, setScore] = useState(0);       // float
   const [heat, setHeat] = useState(0);          // 0 → 100
   const [multiplier, setMultiplier] = useState(1);
+  const sounds = {
+    perfect: new Audio("/sounds/perfect.mp3"),
+    good: new Audio("/sounds/good.mp3"),
+    miss: new Audio("/sounds/miss.mp3"),
+   
+  };
+  
 
   /* ================= MULTIPLIER FROM HEAT ================= */
   useEffect(() => {
@@ -92,6 +99,11 @@ export default function StackBurgerGame() {
     const result = getJudgement(diff, last.width);
 
     setJudgement({ text: result, ts: Date.now() });
+
+    if (result === "PERFECT") sounds.perfect.play();
+if (result === "GOOD") sounds.good.play();
+if (result === "MISS") sounds.miss.play();
+
 
     if (result === "MISS") {
       setShake(true);
