@@ -16,6 +16,10 @@ export default function SecurityCameraModal({ open, onClose }) {
 
   return (
     <div className="camera-overlay" onClick={onClose}>
+
+<button className="camera-close" onClick={onClose}>
+      ✕
+    </button>
       <motion.div
         className="camera-modal"
         onClick={(e) => e.stopPropagation()}
@@ -27,6 +31,7 @@ export default function SecurityCameraModal({ open, onClose }) {
         <video
           src="/rizz.webm"   // 👈 aici pui ce vrei tu
           autoPlay
+          loop
           playsInline
           className="camera-video"
         />
