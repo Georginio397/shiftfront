@@ -20,6 +20,8 @@ export default function StackBurgerGame() {
 const [shake, setShake] = useState(false);
 const [multiplier, setMultiplier] = useState(1);
 const [score, setScore] = useState(0);
+const [heat, setHeat] = useState(0);
+
 
 
 useEffect(() => {
@@ -29,6 +31,15 @@ useEffect(() => {
   else setMultiplier(1);
 }, [heat]);
 
+useEffect(() => {
+  if (heat <= 0) return;
+
+  const decay = setInterval(() => {
+    setHeat(h => Math.max(h - 1, 0));
+  }, 120);
+
+  return () => clearInterval(decay);
+}, [heat]);
 
 
   // mișcare stânga-dreapta
@@ -79,6 +90,13 @@ useEffect(() => {
       setShake(true);
       setTimeout(() => setShake(false), 180);
     }
+
+    setHeat(prev => {
+      if (result === "PERFECT") return Math.min(prev + 25, 100);
+      if (result === "GOOD") return Math.min(prev + 8, 100);
+      return Math.max(prev - 40, 0);
+    });
+    
   
     // GAME OVER
     if (diff > last.width) {
@@ -148,7 +166,11 @@ useEffect(() => {
 
         {/* SCORE BAR */}
         <div className="score-bar">
-          <span>Score: {blocks.length - 1}</span>
+        <span>
+  Score: {score}
+  {multiplier > 1 && <span className="multiplier"> x{multiplier}</span>}
+</span>
+
         </div>
 
         {/* BLOCURI STIVUITE */}
