@@ -24,14 +24,22 @@ export default function StackBurgerGame() {
   const [score, setScore] = useState(0);       // float
   const [heat, setHeat] = useState(0);          // 0 → 100
   const [multiplier, setMultiplier] = useState(1);
-  const sounds = {
-    perfect: new Audio("/sounds/perfect.mp3"),
-    good: new Audio("/sounds/good.mp3"),
-    miss: new Audio("/sounds/miss.mp3"),
-   
-  };
+  const soundsRef = useRef(null);
   
-
+  useEffect(() => {
+    soundsRef.current = {
+      perfect: new Audio("/sounds/perfect.mp3"),
+      good: new Audio("/sounds/good.mp3"),
+      miss: new Audio("/sounds/miss.mp3"),
+    };
+  
+    // preload
+    Object.values(soundsRef.current).forEach(sound => {
+      sound.preload = "auto";
+      sound.volume = 0.6;
+    });
+  }, []);
+  
   /* ================= MULTIPLIER FROM HEAT ================= */
   useEffect(() => {
     if (heat >= 80) setMultiplier(2);
@@ -77,6 +85,20 @@ export default function StackBurgerGame() {
     return () => clearInterval(interval);
   }, [direction, gameOver, blocks]);
 
+  function unlockAudio() {
+    if (!soundsRef.current) return;
+  
+    Object.values(soundsRef.current).forEach(sound => {
+      sound.muted = true;
+      sound.play().then(() => {
+        sound.pause();
+        sound.currentTime = 0;
+        sound.muted = false;
+      }).catch(() => {});
+    });
+  }
+  
+
   /* ================= JUDGEMENT ================= */
   function getJudgement(diff, lastWidth) {
     const ratio = diff / lastWidth;
@@ -94,15 +116,28 @@ export default function StackBurgerGame() {
 
   /* ================= DROP ================= */
   function dropBlock() {
+    unlockAudio();
     const last = blocks[blocks.length - 1];
     const diff = Math.abs(currentLeft - last.left);
     const result = getJudgement(diff, last.width);
 
     setJudgement({ text: result, ts: Date.now() });
 
-    if (result === "PERFECT") sounds.perfect.play();
-if (result === "GOOD") sounds.good.play();
-if (result === "MISS") sounds.miss.play();
+    if (result === "PERFECT") {
+      soundsRef.current.perfect.currentTime = 0;
+      soundsRef.current.perfect.play();
+    }
+    
+    if (result === "GOOD") {
+      soundsRef.current.good.currentTime = 0;
+      soundsRef.current.good.play();
+    }
+    
+    if (result === "MISS") {
+      soundsRef.current.miss.currentTime = 0;
+      soundsRef.current.miss.play();
+    }
+    
 
 
     if (result === "MISS") {
