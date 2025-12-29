@@ -18,6 +18,16 @@ export default function StackBurgerGame() {
 // { text: "PERFECT" | "GOOD" | "MISS", ts: number }
 
 const [shake, setShake] = useState(false);
+const [multiplier, setMultiplier] = useState(1);
+const [score, setScore] = useState(0);
+
+
+useEffect(() => {
+  if (heat >= 80) setMultiplier(2);
+  else if (heat >= 60) setMultiplier(1.5);
+  else if (heat >= 30) setMultiplier(1.2);
+  else setMultiplier(1);
+}, [heat]);
 
 
 
@@ -58,13 +68,11 @@ const [shake, setShake] = useState(false);
   }
   
 
-
   function dropBlock() {
     const last = blocks[blocks.length - 1];
     const diff = Math.abs(currentLeft - last.left);
   
     const result = getJudgement(diff, last.width);
-  
     setJudgement({ text: result, ts: Date.now() });
   
     if (result === "MISS") {
@@ -72,11 +80,16 @@ const [shake, setShake] = useState(false);
       setTimeout(() => setShake(false), 180);
     }
   
-    // GAME OVER logic rămâne
+    // GAME OVER
     if (diff > last.width) {
       setGameOver(true);
-      sendScore(blocks.length - 1);
+      sendScore(score); // ✅ scor real
       return;
+    }
+  
+    // ✅ SCOR doar pentru lovituri valide
+    if (result !== "MISS") {
+      setScore(prev => prev + Math.floor(10 * multiplier));
     }
   
     const newWidth = last.width - diff;
@@ -99,6 +112,7 @@ const [shake, setShake] = useState(false);
   
     setBlocks(newBlocks);
   }
+  
   
 
 

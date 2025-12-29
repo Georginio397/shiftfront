@@ -182,3 +182,17 @@
   100% { transform: translateX(0); }
 }
 
+.multiplier {
+  margin-left: 8px;
+  color: #ff3b00;
+  font-size: 22px;
+  text-shadow: 0 0 8px rgba(255,80,0,0.9);
+  animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to   { transform: scale(1.15); }
+}
+
+
