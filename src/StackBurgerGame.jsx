@@ -212,11 +212,15 @@ export default function StackBurgerGame() {
           />
         )}
 
-        {judgement && (
-          <div className={`judgement ${judgement.text.toLowerCase()}`}>
-            {judgement.text}
-          </div>
-        )}
+{judgement && (
+  <div
+    key={judgement.ts}
+    className={`judgement ${judgement.text.toLowerCase()}`}
+  >
+    {judgement.text}
+  </div>
+)}
+
 
         {gameOver && <div className="game-over-text">GAME OVER</div>}
       </div>
