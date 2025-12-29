@@ -1,67 +1,181 @@
-/* Background blur */
+/* ============================= */
+/*        OVERLAY + BLUR         */
+/* ============================= */
+
 .about-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(6px);
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-    z-index: 999;
-  }
-  
-  /* Modal box */
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+/* ============================= */
+/*          MODAL BOX            */
+/* ============================= */
+
+.about-box {
+  background: rgba(20, 20, 20, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 28px;
+  width: 480px;
+  max-width: 92vw;
+
+  border-radius: 16px;
+  color: white;
+  text-align: center;
+
+  box-shadow:
+    0 0 25px rgba(255, 255, 255, 0.12),
+    0 0 60px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================= */
+/*            TITLES             */
+/* ============================= */
+
+.about-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #ffe9a6;
+  text-shadow: 0 0 8px rgba(255, 204, 102, 0.35);
+}
+
+/* ============================= */
+/*             TEXT              */
+/* ============================= */
+
+.about-text {
+  font-size: 16px;
+  line-height: 1.55;
+  margin-bottom: 14px;
+  color: #f2f2f2;
+}
+
+.about-text b {
+  color: #ffcc66;
+}
+
+.about-text.subtle {
+  font-size: 13px;
+  opacity: 0.75;
+  margin-top: 10px;
+}
+
+/* ============================= */
+/*        PAYOUT LIST            */
+/* ============================= */
+
+.payout-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.payout-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.payout-row img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.35));
+}
+
+.payout-row span {
+  color: #f2f2f2;
+}
+
+/* ============================= */
+/*          PAYOUT STATS         */
+/* ============================= */
+
+.payout-stats {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.25);
+
+  display: flex;
+  gap: 18px;
+}
+
+.stat-box {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffcc00;
+  text-shadow: 0 0 8px rgba(255, 204, 0, 0.35);
+}
+
+.stat-label {
+  margin-top: 4px;
+  font-size: 12px;
+  opacity: 0.75;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================= */
+/*         CLOSE BUTTON          */
+/* ============================= */
+
+.about-close {
+  margin-top: 16px;
+  background: #ffcc66;
+  color: black;
+  border: none;
+  padding: 10px 22px;
+
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.about-close:hover {
+  transform: scale(1.06);
+  background: #ffe29e;
+  box-shadow: 0 0 12px rgba(255, 204, 102, 0.6);
+}
+
+/* ============================= */
+/*        RESPONSIVE FIX         */
+/* ============================= */
+
+@media (max-width: 520px) {
   .about-box {
-    background: rgba(20, 20, 20, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 28px;
-    width: 480px;
-  
-    border-radius: 14px;
-    color: white;
-    text-align: center;
-  
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+    padding: 22px;
   }
-  
-  /* Title */
+
   .about-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    color: #ffe9a6;
+    font-size: 22px;
   }
-  
-  /* Text */
+
   .about-text {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 14px;
+    font-size: 15px;
   }
-  
-  /* Close button */
-  .about-close {
-    margin-top: 10px;
-    background: #ffcc66;
-    color: black;
-    border: none;
-    padding: 10px 18px;
-  
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-  
-    transition: 0.2s ease;
+
+  .stat-value {
+    font-size: 20px;
   }
-  
-  .about-close:hover {
-    transform: scale(1.06);
-    background: #ffe29e;
-  }
-  
+}

@@ -39,26 +39,43 @@ export default function AboutModal({ open, onClose }) {
         </p>
 
         <p className="about-text">
-  <b>Current payouts per cycle:</b>
-</p>
+          <b>Current payouts per cycle:</b>
+        </p>
 
-<div className="payout-list">
-  <div className="payout-row">
-    <img src="/gold.PNG" alt="Top 1" />
-    <span><b>Top 1</b> — $10</span>
-  </div>
+        <div className="payout-list">
+          <div className="payout-row">
+            <img src="/gold.PNG" alt="Top 1" />
+            <span><b>Top 1</b> — $10</span>
+          </div>
 
-  <div className="payout-row">
-    <img src="/silver.PNG" alt="Top 2" />
-    <span><b>Top 2</b> — $5</span>
-  </div>
+          <div className="payout-row">
+            <img src="/silver.PNG" alt="Top 2" />
+            <span><b>Top 2</b> — $5</span>
+          </div>
 
-  <div className="payout-row">
-    <img src="/bronze.PNG" alt="Top 3" />
-    <span><b>Top 3</b> — $5</span>
-  </div>
-</div>
+          <div className="payout-row">
+            <img src="/bronze.PNG" alt="Top 3" />
+            <span><b>Top 3</b> — $5</span>
+          </div>
+        </div>
 
+        {/* 🔥 STATS */}
+        <div className="payout-stats">
+          <div className="stat-box">
+            <div className="stat-value">$240+</div>
+            <div className="stat-label">paid per hour</div>
+          </div>
+
+          <div className="stat-box">
+            <div className="stat-value">$5,760+</div>
+            <div className="stat-label">paid every 24 hours</div>
+          </div>
+        </div>
+
+        <p className="about-text subtle">
+          Rewards are distributed automatically every 5 minutes,
+          based purely on leaderboard performance.
+        </p>
 
         <p className="about-text">
           No randomness. No luck.
