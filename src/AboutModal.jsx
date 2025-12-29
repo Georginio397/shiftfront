@@ -44,17 +44,17 @@ export default function AboutModal({ open, onClose }) {
 
 <div className="payout-list">
   <div className="payout-row">
-    <img src="/gold.png" alt="Top 1" />
+    <img src="/gold.PNG" alt="Top 1" />
     <span><b>Top 1</b> — $10</span>
   </div>
 
   <div className="payout-row">
-    <img src="/silver.png" alt="Top 2" />
+    <img src="/silver.PNG" alt="Top 2" />
     <span><b>Top 2</b> — $5</span>
   </div>
 
   <div className="payout-row">
-    <img src="/bronze.png" alt="Top 3" />
+    <img src="/bronze.PNG" alt="Top 3" />
     <span><b>Top 3</b> — $5</span>
   </div>
 </div>
