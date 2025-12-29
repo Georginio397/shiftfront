@@ -1,30 +1,25 @@
 .camera-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(6px);
-    z-index: 5000;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
   
     display: flex;
     justify-content: center;
     align-items: center;
   }
   
+  /* container FULLSCREEN */
   .camera-modal {
-    width: 90vw;
-    height: 90vh;
-    max-width: 1400px;
-    max-height: 800px;
-  
-    background: #000;
-    border-radius: 16px;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: black;
     overflow: hidden;
-  
-    box-shadow:
-      0 0 40px rgba(0,0,0,0.8),
-      inset 0 0 0 2px rgba(255,255,255,0.08);
   }
   
+  /* video-ul umple tot ecranul */
   .camera-video {
     width: 100%;
     height: 100%;

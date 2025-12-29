@@ -27,7 +27,6 @@ export default function SecurityCameraModal({ open, onClose }) {
         <video
           src="/rizz.webm"   // 👈 aici pui ce vrei tu
           autoPlay
-          controls
           playsInline
           className="camera-video"
         />
