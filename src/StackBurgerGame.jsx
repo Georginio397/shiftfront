@@ -74,10 +74,15 @@ export default function StackBurgerGame() {
   function getJudgement(diff, lastWidth) {
     const ratio = diff / lastWidth;
   
-    if (ratio < 0.12) return "PERFECT"; // ~12%
-    if (ratio < 0.45) return "GOOD";    // ~45%
+    // marjă minimă în pixeli
+    const PERFECT_PX = 6;
+    const GOOD_PX = 14;
+  
+    if (diff <= PERFECT_PX || ratio < 0.12) return "PERFECT";
+    if (diff <= GOOD_PX || ratio < 0.45) return "GOOD";
     return "MISS";
   }
+  
   
 
   /* ================= DROP ================= */
