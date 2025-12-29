@@ -415,13 +415,23 @@ body.game-active .scene {
   position: absolute;
   bottom: 5vh;
   left: 55%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(1);
+  transform-origin: center bottom;
+
   width: 28vw;
   max-width: 640px;
+
   pointer-events: auto;
   cursor: pointer;
   z-index: 45;
+
+  transition: transform 0.45s cubic-bezier(0.25, 0.9, 0.25, 1);
 }
+
+.shifter-gif:hover {
+  transform: translateX(-50%) scale(1.035);
+}
+
 
 .sound-toggle {
   position: fixed;
