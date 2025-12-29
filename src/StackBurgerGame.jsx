@@ -92,8 +92,12 @@ useEffect(() => {
     }
 
     setHeat(prev => {
-      if (result === "PERFECT") return Math.min(prev + 25, 100);
-      if (result === "GOOD") return Math.min(prev + 8, 100);
+      if (result === "PERFECT") {
+        setScore(prev => prev + Math.floor(10 * multiplier));
+      } else if (result === "GOOD") {
+        setScore(prev => prev + Math.floor(6 * multiplier));
+      }
+      
       return Math.max(prev - 40, 0);
     });
     
@@ -154,7 +158,12 @@ useEffect(() => {
     setBlocks([{ width: 200, left: 80, bottom: 0 }]);
     setCurrentLeft(0);
     setGameOver(false);
+    setScore(0);
+    setHeat(0);
+    setMultiplier(1);
+    setJudgement(null);
   }
+  
 
 
   return (
