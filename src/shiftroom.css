@@ -69,6 +69,21 @@ body.game-active .scene {
   color: #fff3c4;
 }
 
+.wall-clock.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.wall-clock.clickable:hover {
+  transform: scale(1.05);
+  filter: brightness(1.15);
+}
+
+.wall-clock.clickable:active {
+  transform: scale(0.98);
+}
+
+
 .worker-ui {
   position: absolute;
   top: 14px;
@@ -478,7 +493,7 @@ body.game-active .scene {
   right: 4%;      /* ajustezi cât vrei */
   top: 10%;       /* poziția verticală */
   z-index: 30;    /* peste wall + poster */
-  pointer-events: none; /* să nu blocheze clickurile posterului */
+ 
 }
 
 /* clock image */

@@ -432,9 +432,17 @@ function toggleContract() {
 </a>
 
 {/* WALL CLOCK RIGHT SIDE */}
-<div className="wall-clock">
+<div
+  className="wall-clock clickable"
+  onClick={() => {
+    const audio = new Audio("/sounds/lockin.mp3"); // 🔊 tu alegi sunetul
+    audio.volume = 0.6;
+    audio.play().catch(() => {});
+  }}
+>
   <img src="/Clock.gif" alt="Clock" className="clock-img" />
 </div>
+
 
 
 
