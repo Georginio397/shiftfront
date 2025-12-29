@@ -148,7 +148,7 @@
   border-bottom-color: #fff1b8;
 }
 
-/* =============== ABOUT MODAL CLOSE BUTTON (3D ARCADE) =============== */
+/* =============== ABOUT CLOSE BUTTON (DEPTH ON HOVER) =============== */
 .about-close.arcade-close {
   margin: 18px auto 0;
   display: block;
@@ -174,29 +174,33 @@
   border: none;
   border-radius: 10px;
 
-  /* 3D permanent */
+  /* RIDICAT implicit */
   box-shadow:
-    inset 0 2px 0 rgba(255,255,255,0.45), /* highlight sus */
-    inset 0 -3px 0 rgba(120,60,0,0.55),   /* umbră jos */
-    0 5px 0 #8a5a12;                      /* baza */
+    inset 0 2px 0 rgba(255,255,255,0.45),
+    inset 0 -3px 0 rgba(120,60,0,0.55),
+    0 5px 0 #8a5a12;
 
   cursor: pointer;
-  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.08s ease;
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
 }
 
-/* hover foarte subtil */
+/* HOVER = ADÂNCIRE */
 .about-close.arcade-close:hover {
-  filter: brightness(1.05);
-}
-
-/* click = adâncire mecanică */
-.about-close.arcade-close:active {
-  transform: translateY(3px);
+  transform: translateY(4px);
 
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.35),
     inset 0 -1px 0 rgba(120,60,0,0.65),
     0 2px 0 #8a5a12;
+}
+
+/* CLICK = confirmare subtilă */
+.about-close.arcade-close:active {
+  filter: brightness(0.95);
 }
 
 
