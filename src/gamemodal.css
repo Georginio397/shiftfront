@@ -9,7 +9,7 @@
   }
   
   .modal-content {
-    background: #1c1c1c;
+    background: url("/public/cabinet.PNG") no-repeat center;
     border-radius: 12px;
     padding: 20px 30px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
