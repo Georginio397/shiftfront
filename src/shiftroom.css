@@ -439,6 +439,15 @@ body.game-active .scene {
   object-fit: contain;
   pointer-events: none;
 }
+.security-camera {
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.security-camera:hover {
+  transform: scale(1.04);
+  filter: brightness(1.15);
+}
 
 /* ============================= */
 /*        SECURITY CAMERA        */

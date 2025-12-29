@@ -7,6 +7,7 @@ import Leaderboard from "./Leaderboard";
 import AuthModal from "./AuthModal";
 import AboutModal from "./AboutModal";
 import { setScenePaused } from "./performanceController";
+import SecurityCameraModal from "./SecurityCameraModal";
 
 
 
@@ -27,6 +28,8 @@ const mintHoverRef = useRef(null);
 const [contractVisible, setContractVisible] = useState(false);
 const [copied, setCopied] = useState(false);
 const [wallet, setWallet] = useState("");
+const [cameraOpen, setCameraOpen] = useState(false);
+
 
 
 const MINT_LINK = "https://launchmynft.io/collections/CWvZc3jpLuD4gUXZ4u13brwyh1GfXNA4VU8YtTbQR7Td/VE9lKalzNceeqyR8TPrT";
@@ -42,7 +45,7 @@ useEffect(() => {
     unloadBackground: false
   });
   
-}, [gameOpen, authOpen, aboutOpen]);
+}, [gameOpen, authOpen, aboutOpen, cameraOpen]);
 
 useEffect(() => {
   const savedUsername = localStorage.getItem("shift_username");
@@ -264,9 +267,14 @@ function toggleContract() {
       
 
       {/* TOP MENU – 3 TELEVIZOARE */}
-      <div className="security-camera">
+      <div
+  className="security-camera"
+  onClick={() => setCameraOpen(true)}
+>
   <img src="/Camera.gif" className="cam-frame" alt="camera" />
 </div>
+
+
       <div className="top-menu">
 
         {/* SECURITY CAMERA */}
@@ -480,6 +488,12 @@ function toggleContract() {
 
       {/* GAME MODAL */}
       <GameModal open={gameOpen} onClose={() => setGameOpen(false)} />
+
+      <SecurityCameraModal
+  open={cameraOpen}
+  onClose={() => setCameraOpen(false)}
+/>
+
 
       {/* AUTH MODAL */}
       {authOpen && (
