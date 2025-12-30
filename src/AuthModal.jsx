@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./authmodal.css";
+import ArcadeAlert from "./ArcadeAlert";
 
 export default function AuthModal({ onClose, onSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -8,76 +9,68 @@ export default function AuthModal({ onClose, onSuccess }) {
   const [wallet, setWallet] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   const API_BASE = process.env.REACT_APP_API_BASE;
 
   function isValidSolanaAddress(address) {
-    // Base58 regex (fără 0 O I l)
     const base58Regex = /^[1-9A-HJ-NP-Za-km-z]+$/;
-  
     if (!address) return false;
     if (address.length < 32 || address.length > 44) return false;
     if (!base58Regex.test(address)) return false;
-  
     return true;
   }
-  
 
   function generatePass() {
     const pass = Math.random().toString(36).slice(2, 10);
     setPassword(pass);
   }
 
+  function showError(message) {
+    setAlert({ type: "error", message });
+  }
+
   async function submitForm(e) {
     e.preventDefault();
 
     if (!API_BASE) {
-      alert("API base URL missing. Check Vercel ENV.");
+      showError("API configuration error. Please try again later.");
       return;
     }
 
     if (!username || !password) {
-      alert("Username and password required.");
+      showError("Username and password are required.");
       return;
     }
 
     if (!isLogin) {
       if (!wallet) {
-        alert("Wallet address required for rewards.");
+        showError("Wallet address is required for rewards.");
         return;
       }
-    
+
       if (!isValidSolanaAddress(wallet)) {
-        alert("Invalid Solana wallet address.");
+        showError("Invalid Solana wallet address.");
         return;
       }
     }
-    
-    
 
     const endpoint = isLogin ? "/api/auth/login" : "/api/auth/signup";
-
     setLoading(true);
 
     try {
       const res = await fetch(`${API_BASE}${endpoint}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, wallet })
       });
 
-      let data = null;
-
-      try {
-        data = await res.json();
-      } catch {
-        throw new Error("Server returned invalid response");
-      }
+      const data = await res.json().catch(() => {
+        throw new Error("Server returned invalid response.");
+      });
 
       if (!res.ok) {
-        throw new Error(data?.error || "Authentication failed");
+        throw new Error(data?.error || "Authentication failed.");
       }
 
       localStorage.setItem("shift_token", data.token);
@@ -85,14 +78,12 @@ export default function AuthModal({ onClose, onSuccess }) {
       localStorage.setItem("shift_user_id", data.user.id);
       localStorage.setItem("shift_wallet", data.user.wallet);
 
-      
-
       onSuccess();
       onClose();
 
     } catch (err) {
       console.error("AUTH ERROR:", err);
-      alert(err.message);
+      showError(err.message);
     } finally {
       setLoading(false);
     }
@@ -119,8 +110,7 @@ export default function AuthModal({ onClose, onSuccess }) {
             maxLength={16}
             value={username}
             onChange={(e) => {
-              let val = e.target.value;
-              val = val.replace(/[^a-zA-Z0-9_]/g, "");
+              let val = e.target.value.replace(/[^a-zA-Z0-9_]/g, "");
               setUsername(val);
             }}
           />
@@ -131,19 +121,15 @@ export default function AuthModal({ onClose, onSuccess }) {
             </div>
           )}
 
-{!isLogin && (
-  <input
-  className="auth-input"
-  placeholder="Solana wallet address"
-  value={wallet}
-  onChange={(e) => {
-    const val = e.target.value.trim();
-    setWallet(val);
-  }}
-/>
-
-)}
-
+          {/* WALLET */}
+          {!isLogin && (
+            <input
+              className="auth-input"
+              placeholder="Solana wallet address"
+              value={wallet}
+              onChange={(e) => setWallet(e.target.value.trim())}
+            />
+          )}
 
           {/* PASSWORD */}
           <div
@@ -158,10 +144,7 @@ export default function AuthModal({ onClose, onSuccess }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
-            <span className="show-pass-hint">
-              👁 Hover to reveal
-            </span>
+            <span className="show-pass-hint">👁 Hover to reveal</span>
           </div>
 
           {!isLogin && (
@@ -174,11 +157,7 @@ export default function AuthModal({ onClose, onSuccess }) {
             </button>
           )}
 
-          <button
-            className="auth-btn"
-            type="submit"
-            disabled={loading}
-          >
+          <button className="auth-btn" type="submit" disabled={loading}>
             {loading
               ? "Please wait..."
               : isLogin
@@ -201,6 +180,15 @@ export default function AuthModal({ onClose, onSuccess }) {
         </div>
 
       </div>
+
+      {/* 🔥 ARCADE ALERT */}
+      {alert && (
+        <ArcadeAlert
+          type={alert.type}
+          message={alert.message}
+          onClose={() => setAlert(null)}
+        />
+      )}
     </div>
   );
 }
