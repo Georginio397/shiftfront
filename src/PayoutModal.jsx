@@ -1,6 +1,12 @@
 import "./payoutmodal.css";
 
 export default function PayoutModal({ payout, onClose }) {
+  const shareText = encodeURIComponent(
+    `Just got paid $${payout.amount} playing Stack The Burger 🍔👷‍♂️\nOn-chain rewards, no fluff.`
+  );
+
+  const shareUrl = `https://twitter.com/intent/tweet?text=${shareText}`;
+
   async function closePopup() {
     const API_BASE = process.env.REACT_APP_API_BASE;
     const token = localStorage.getItem("shift_token");
@@ -25,12 +31,10 @@ export default function PayoutModal({ payout, onClose }) {
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         console.error("MARK PAYOUT FAILED:", err);
-        return; // ❌ NU închidem popup-ul dacă nu s-a marcat
+        return;
       }
 
-      // ✅ DOAR aici e sigur
       onClose();
-
     } catch (err) {
       console.error("MARK PAYOUT SEEN ERROR:", err);
     }
@@ -42,9 +46,20 @@ export default function PayoutModal({ payout, onClose }) {
         <h1>💸 You got paid!</h1>
         <p className="payout-amount">${payout.amount}</p>
 
-        <button className="payout-btn" onClick={closePopup}>
-          Got it
-        </button>
+        <div className="payout-actions">
+          <button className="payout-btn primary" onClick={closePopup}>
+            Got it
+          </button>
+
+          <a
+            href={shareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="payout-btn secondary"
+          >
+            Share on X
+          </a>
+        </div>
       </div>
     </div>
   );
