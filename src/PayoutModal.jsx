@@ -2,8 +2,12 @@ import "./payoutmodal.css";
 
 export default function PayoutModal({ payout, onClose }) {
   const shareText = encodeURIComponent(
-    `Just got paid $${payout.amount} playing Stack The Burger 🍔👷‍♂️\nOn-chain rewards, no fluff.`
+    `Just got paid $${payout.amount} playing Stack The Burger 🍔👷‍♂️
+  On-chain rewards, simple game, real payouts.
+  
+  https://shiftguy.xyz`
   );
+  
 
   const shareUrl = `https://twitter.com/intent/tweet?text=${shareText}`;
 
