@@ -1,13 +1,20 @@
 import "./payoutmodal.css";
 
 export default function PayoutModal({ payout, onClose }) {
+  if (!payout) return null;
+
+  const siteUrl = "https://shiftguy.xyz";
+  const solscanUrl = payout.tx
+    ? `https://solscan.io/tx/${payout.tx}`
+    : null;
+
   const shareText = encodeURIComponent(
     `Just got paid $${payout.amount} playing Stack The Burger 🍔👷‍♂️
-  On-chain rewards, simple game, real payouts.
-  
-  https://shiftguy.xyz`
+
+Simple game. Real competition. On-chain rewards.
+
+${siteUrl}${solscanUrl ? `\n\nTX: ${solscanUrl}` : ""}`
   );
-  
 
   const shareUrl = `https://twitter.com/intent/tweet?text=${shareText}`;
 
@@ -48,13 +55,21 @@ export default function PayoutModal({ payout, onClose }) {
     <div className="payout-overlay">
       <div className="payout-box">
         <h1>💸 You got paid!</h1>
+
         <p className="payout-amount">${payout.amount}</p>
 
-        <div className="payout-actions">
-          <button className="payout-btn primary" onClick={closePopup}>
-            Got it
-          </button>
+        {solscanUrl && (
+          <a
+            href={solscanUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="payout-solscan"
+          >
+            View transaction on Solscan ↗
+          </a>
+        )}
 
+        <div className="payout-actions">
           <a
             href={shareUrl}
             target="_blank"
@@ -63,6 +78,13 @@ export default function PayoutModal({ payout, onClose }) {
           >
             Share on X
           </a>
+
+          <button
+            className="payout-btn primary"
+            onClick={closePopup}
+          >
+            Got it
+          </button>
         </div>
       </div>
     </div>
