@@ -8,12 +8,12 @@ export default function Leaderboard({ onToast }) {
   const [winners, setWinners] = useState([]);
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [nextPayoutAt, setNextPayoutAt] = useState(null);
-  const toastTimeoutRef = useRef(null);
+
   const [serverOffset, setServerOffset] = useState(0);
 const [countdown, setCountdown] = useState("--:--");
 
 
-  const [toast, setToast] = useState(null);
+
 
 
 
@@ -35,12 +35,6 @@ const [countdown, setCountdown] = useState("--:--");
   }, [activeTab]);
 
 
-
-  useEffect(() => {
-    loadPayoutState();
-    const sync = setInterval(loadPayoutState, 30000); // resync la 30s
-    return () => clearInterval(sync);
-  }, []);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -65,7 +59,6 @@ const [countdown, setCountdown] = useState("--:--");
   
   
   
-
   async function loadLeaderboard() {
     const res = await fetch(`${API_BASE}/api/leaderboard`);
     if (!res.ok) return;
@@ -75,7 +68,19 @@ const [countdown, setCountdown] = useState("--:--");
     if (Array.isArray(data.leaderboard)) {
       setScores(data.leaderboard);
     }
+  
+    // 🔥 SETĂM TIMERUL DIN LEADERBOARD
+    if (
+      data.endsAt &&
+      data.serverTime &&
+      data.endsAt !== nextPayoutAt
+    ) {
+      setNextPayoutAt(data.endsAt);
+      setServerOffset(data.serverTime - Date.now());
+    }
+    
   }
+  
   
   
 
@@ -88,18 +93,6 @@ const [countdown, setCountdown] = useState("--:--");
   }
   
 
-  async function loadPayoutState() {
-    const res = await fetch(`${API_BASE}/api/payout-state`);
-    if (!res.ok) return;
-  
-    const data = await res.json();
-  
-    if (data?.nextRunAt && data?.serverTime) {
-      setNextPayoutAt(data.nextRunAt);
-      setServerOffset(data.serverTime - Date.now());
-    }
-  }
-  
 
   function formatTime(ts) {
     const d = new Date(ts);
