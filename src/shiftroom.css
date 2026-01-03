@@ -750,23 +750,45 @@ body.game-active .scene {
 
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(4px);
+  animation: loaderFade 0.18s ease-out;
+}
+
+@keyframes loaderFade {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
 }
 
 .loader-card {
   width: min(360px, 80vw);
   padding: 28px 24px;
-  border-radius: 14px;
+  border-radius: 16px;
 
-  background: rgba(25, 18, 12, 0.95);
-  border: 2px solid rgba(255, 200, 120, 0.25);
+  background:
+    radial-gradient(
+      120% 120% at 50% 0%,
+      rgba(255, 200, 120, 0.12),
+      rgba(20, 14, 8, 0.95) 60%
+    );
+
+  border: 1px solid rgba(255, 200, 120, 0.35);
 
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  box-shadow:
+    0 0 0 1px rgba(255, 200, 120, 0.15),
+    0 20px 60px rgba(0,0,0,0.7),
+    0 0 35px rgba(255, 180, 80, 0.25); /* 🔥 glow */
 }
+
 
 .loader-spinner {
   width: 34px;
@@ -779,13 +801,26 @@ body.game-active .scene {
 
 .loader-title {
   font-size: 14px;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+
+  color: #ffd27a;
+
+  text-shadow:
+    0 0 6px rgba(255, 200, 120, 0.6),
+    0 0 14px rgba(255, 170, 60, 0.35);
 }
+
 
 .loader-sub {
   font-size: 11px;
-  opacity: 0.6;
+  letter-spacing: 0.4px;
+  color: rgba(255, 210, 140, 0.7);
+
+  text-shadow:
+    0 0 6px rgba(255, 180, 90, 0.25);
 }
+
 
 @keyframes spin {
   to { transform: rotate(360deg); }
