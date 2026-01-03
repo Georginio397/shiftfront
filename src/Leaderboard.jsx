@@ -9,6 +9,9 @@ export default function Leaderboard({ onToast }) {
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [nextPayoutAt, setNextPayoutAt] = useState(null);
   const toastTimeoutRef = useRef(null);
+  const [serverOffset, setServerOffset] = useState(0);
+const [countdown, setCountdown] = useState("--:--");
+
 
   const [toast, setToast] = useState(null);
 
@@ -38,16 +41,42 @@ export default function Leaderboard({ onToast }) {
     const sync = setInterval(loadPayoutState, 30000); // resync la 30s
     return () => clearInterval(sync);
   }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!nextPayoutAt) {
+        setCountdown("--:--");
+        return;
+      }
+  
+      const now = Date.now() + serverOffset;
+      const diff = Math.max(0, nextPayoutAt - now);
+  
+      const min = Math.floor(diff / 60000);
+      const sec = Math.floor((diff % 60000) / 1000);
+  
+      setCountdown(
+        `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
+      );
+    }, 250); // 🔥 250ms = fluid, stabil
+  
+    return () => clearInterval(id);
+  }, [nextPayoutAt, serverOffset]);
+  
   
   
 
   async function loadLeaderboard() {
     const res = await fetch(`${API_BASE}/api/leaderboard`);
-    if (!res.ok) return; // 🔥 oprește eroarea 400 în console
+    if (!res.ok) return;
   
     const data = await res.json();
-    setScores(data);
+  
+    if (Array.isArray(data.leaderboard)) {
+      setScores(data.leaderboard);
+    }
   }
+  
   
 
   async function loadWinners() {
@@ -64,25 +93,12 @@ export default function Leaderboard({ onToast }) {
     if (!res.ok) return;
   
     const data = await res.json();
-    if (data?.nextRunAt) {
-      setNextPayoutAt(new Date(data.nextRunAt).getTime());
+  
+    if (data?.nextRunAt && data?.serverTime) {
+      setNextPayoutAt(data.nextRunAt);
+      setServerOffset(data.serverTime - Date.now());
     }
   }
-  
-  
-
-  function formatCountdown() {
-    if (!nextPayoutAt) return "--:--";
-  
-    const diff = nextPayoutAt - Date.now();
-    if (diff <= 0) return "00:00";
-  
-    const min = Math.floor(diff / 60000);
-    const sec = Math.floor((diff % 60000) / 1000);
-  
-    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-  }
-  
   
 
   function formatTime(ts) {
@@ -126,7 +142,7 @@ export default function Leaderboard({ onToast }) {
   opacity: 0.7,
   marginBottom: 6
 }}>
- ⏱ Next payout in {formatCountdown()}
+ ⏱ Next payout in {countdown}
 
 </div>
 
