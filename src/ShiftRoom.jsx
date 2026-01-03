@@ -132,37 +132,23 @@ function toggleContract() {
   async function handleGameClick() {
     const token = localStorage.getItem("shift_token");
   
-    // ❌ neautentificat → auth modal
     if (!token) {
       setAuthOpen(true);
       return;
     }
   
-    // 🔄 pornim loader
-    setStartingGame(true);
+    setStartingGame(true); // 🔥 instant feedback UI
   
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_BASE}/api/start-game`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+      await fetch(`${process.env.REACT_APP_API_BASE}/api/start-game`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` }
+      });
   
-      if (!res.ok) {
-        throw new Error("Start game failed");
-      }
-  
-      // ✅ backend a confirmat startul → deschidem jocul
       setGameOpen(true);
-  
     } catch (e) {
       console.error("START GAME FAILED:", e);
     } finally {
-      // 🔥 oprim loader indiferent de rezultat
       setStartingGame(false);
     }
   }
@@ -365,15 +351,11 @@ function toggleContract() {
 
 
 
-{/* PLAY TV */}
-<div
+        {/* PLAY TV */}
+        <div
   className="tv-screen"
-  onClick={() => {
-    if (!startingGame) handleGameClick();
-  }}
+  onClick={handleGameClick}
   onMouseEnter={() => {
-    if (startingGame) return;
-
     const v = gameHoverRef.current;
     if (!v) return;
 
@@ -381,46 +363,34 @@ function toggleContract() {
     v.play().catch(() => {});
   }}
   onMouseLeave={() => {
-    if (startingGame) return;
-
     const v = gameHoverRef.current;
     if (!v) return;
 
     setTimeout(() => v.pause(), 80);
   }}
-  style={{ position: "relative" }}
 >
-  {/* IDLE VIDEO */}
-  <video
-    className="tv-video idle"
-    src="/game.webm"
-    autoPlay
-    loop
-    muted
-    playsInline
-    data-persistent="true"
-  />
+<video
+  className="tv-video idle"
+  src="/game.webm"
+  autoPlay
+  loop
+  muted
+  playsInline
+  data-persistent="true"
+/>
 
-  {/* HOVER VIDEO */}
-  <video
-    ref={gameHoverRef}
-    className="tv-video hover"
-    src="/play.webm"
-    muted
-    loop={false}
-    playsInline
-    data-persistent="true"
-  />
+<video
+  ref={gameHoverRef}
+  className="tv-video hover"
+  src="/play.webm"
+  muted
+  loop={false}
+  playsInline
+  data-persistent="true"
+/>
 
-  {/* 🔄 LOADER OVERLAY */}
-  {startingGame && (
-    <div className="tv-loader">
-      <div className="tv-spinner" />
-      <div className="tv-loading-text">Starting shift…</div>
-    </div>
-  )}
+
 </div>
-
 
 
 
@@ -607,6 +577,15 @@ function toggleContract() {
   <img src="/Ca.png" className="arrow-img" alt="arrow" />
 </div>
 
+{startingGame && (
+  <div className="global-loader">
+    <div className="loader-card">
+      <div className="loader-spinner" />
+      <div className="loader-title">Starting shift…</div>
+      <div className="loader-sub">Clocking you in</div>
+    </div>
+  </div>
+)}
 
 
     </div>
