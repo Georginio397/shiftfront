@@ -127,11 +127,25 @@ function toggleContract() {
 
   
 
-  function handleGameClick() {
+  async function handleGameClick() {
     const token = localStorage.getItem("shift_token");
-    if (!token) setAuthOpen(true);
-    else setGameOpen(true);
+    if (!token) {
+      setAuthOpen(true);
+      return;
+    }
+  
+    try {
+      await fetch(`${process.env.REACT_APP_API_BASE}/api/start-game`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    } catch (e) {
+      console.error("START GAME FAILED:", e);
+    }
+  
+    setGameOpen(true);
   }
+  
 
   function playShifterSound() {
     const sounds = [
