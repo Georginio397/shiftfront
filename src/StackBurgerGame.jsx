@@ -23,6 +23,8 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
   // GAME FEEL STATES
   const [judgement, setJudgement] = useState(null);
   const [shake, setShake] = useState(false);
+  const wallSparkRef = useRef(null);
+
 
   // SCORE SYSTEM
   const [score, setScore] = useState(0);       // float
@@ -30,7 +32,6 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
   const [multiplier, setMultiplier] = useState(1);
   const soundsRef = useRef(null);
   const audioUnlockedRef = useRef(false);
-  const sparkRef = useRef(null);
 
   
   useEffect(() => {
@@ -104,6 +105,19 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
       }).catch(() => {});
     });
   }
+
+  function triggerWallSpark(x, y) {
+    const spark = wallSparkRef.current;
+    if (!spark) return;
+  
+    spark.style.left = `${x}px`;
+    spark.style.bottom = `${y}px`;
+  
+    spark.classList.remove("wall-spark-anim");
+    void spark.offsetWidth;
+    spark.classList.add("wall-spark-anim");
+  }
+  
   
   function unlockAudioOnce() {
     if (audioUnlockedRef.current) return;
@@ -133,17 +147,6 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
     return "MISS";
   }
   
-  function triggerSpark(x, y) {
-    const spark = sparkRef.current;
-    if (!spark) return;
-  
-    spark.style.left = `${x}px`;
-    spark.style.bottom = `${y}px`;
-  
-    spark.classList.remove("spark-anim");
-    void spark.offsetWidth; // force reflow
-    spark.classList.add("spark-anim");
-  }
   
 
   /* ================= DROP ================= */
@@ -154,6 +157,7 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
   
     setJudgement({ text: result, ts: Date.now() });
   
+    // ================= SOUNDS =================
     if (result === "PERFECT") {
       soundsRef.current.perfect.currentTime = 0;
       soundsRef.current.perfect.play();
@@ -169,41 +173,44 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
       soundsRef.current.miss.play();
     }
   
+    // ================= SHAKE =================
     if (result === "MISS") {
       setShake(true);
       setTimeout(() => setShake(false), 180);
     }
   
-    // 🔥 SPARK la impact lateral
-    if (diff > 0) {
-      const hitLeft = currentLeft < last.left;
-  
-      const sparkX = hitLeft
-        ? last.left
-        : last.left + last.width;
-  
-      const sparkY = last.bottom + BLOCK_HEIGHT;
-  
-      triggerSpark(sparkX, sparkY);
-    }
-  
-    // HEAT
+    // ================= HEAT =================
     setHeat(prev => {
       if (result === "PERFECT") return Math.min(prev + 25, 100);
       if (result === "GOOD") return Math.min(prev + 8, 100);
       return Math.max(prev - 40, 0);
     });
   
+    // ================= WALL SPARK =================
+    const hitLeftWall = currentLeft <= 0;
+    const hitRightWall =
+      currentLeft + last.width >= AREA_WIDTH;
+  
+    if (hitLeftWall || hitRightWall) {
+      const sparkX = hitLeftWall ? 0 : AREA_WIDTH;
+      const sparkY = last.bottom + BLOCK_HEIGHT + 8;
+  
+      triggerWallSpark(sparkX, sparkY);
+    }
+  
+    // ================= GAME OVER =================
     if (diff > last.width) {
       setGameOver(true);
       sendScore(Math.floor(score));
       return;
     }
   
+    // ================= SCORE =================
     if (result !== "MISS") {
       setScore(prev => prev + multiplier);
     }
   
+    // ================= ADD BLOCK =================
     const newWidth = last.width - diff;
     const newLeft = Math.max(currentLeft, last.left);
   
@@ -216,9 +223,12 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
       }
     ];
   
+    // ================= SOFT CAMERA SHIFT =================
     const newTop = newBlocks[newBlocks.length - 1];
+  
     if (newTop.bottom > SOFT_SHIFT_START) {
       const overflow = newTop.bottom - SOFT_SHIFT_START;
+  
       newBlocks = newBlocks.map(b => ({
         ...b,
         bottom: b.bottom - overflow
@@ -263,8 +273,6 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
       
 
       <div className={`stack-area ${shake ? "shake" : ""}`}>
-      <div ref={sparkRef} className="impact-spark" />
-
         <div className="score-bar">
           <span>
             Score: {score.toFixed(1)}
@@ -312,6 +320,9 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
     {judgement.text}
   </div>
 )}
+
+<div ref={wallSparkRef} className="wall-spark" />
+
 
 
         {gameOver && <div className="game-over-text">GAME OVER</div>}
