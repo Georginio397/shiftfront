@@ -145,38 +145,6 @@
 }
 
 
-.wall-spark {
-  position: absolute;
-  width: 10px;
-  height: 24px;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(
-    to top,
-    transparent,
-    #ffd56a,
-    #ff9f1c,
-    transparent
-  );
-  filter: drop-shadow(0 0 6px rgba(255, 200, 80, 0.8));
-}
-
-.wall-spark-anim {
-  animation: wallSpark 180ms ease-out;
-}
-
-@keyframes wallSpark {
-  0% {
-    opacity: 1;
-    transform: scaleY(0.6);
-  }
-  100% {
-    opacity: 0;
-    transform: scaleY(1.4);
-  }
-}
-
-
 
 .score-bar {
   position: absolute;

@@ -23,8 +23,6 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
   // GAME FEEL STATES
   const [judgement, setJudgement] = useState(null);
   const [shake, setShake] = useState(false);
-  const wallSparkRef = useRef(null);
-
 
   // SCORE SYSTEM
   const [score, setScore] = useState(0);       // float
@@ -105,19 +103,6 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
       }).catch(() => {});
     });
   }
-
-  function triggerWallSpark(x, y) {
-    const spark = wallSparkRef.current;
-    if (!spark) return;
-  
-    spark.style.left = `${x}px`;
-    spark.style.bottom = `${y}px`;
-  
-    spark.classList.remove("wall-spark-anim");
-    void spark.offsetWidth;
-    spark.classList.add("wall-spark-anim");
-  }
-  
   
   function unlockAudioOnce() {
     if (audioUnlockedRef.current) return;
@@ -151,69 +136,58 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
 
   /* ================= DROP ================= */
   function dropBlock() {
+
     const last = blocks[blocks.length - 1];
     const diff = Math.abs(currentLeft - last.left);
     const result = getJudgement(diff, last.width);
-  
+
     setJudgement({ text: result, ts: Date.now() });
-  
-    // ================= SOUNDS =================
+
     if (result === "PERFECT") {
       soundsRef.current.perfect.currentTime = 0;
       soundsRef.current.perfect.play();
     }
-  
+    
     if (result === "GOOD") {
       soundsRef.current.good.currentTime = 0;
       soundsRef.current.good.play();
     }
-  
+    
     if (result === "MISS") {
       soundsRef.current.miss.currentTime = 0;
       soundsRef.current.miss.play();
     }
-  
-    // ================= SHAKE =================
+    
+
+
     if (result === "MISS") {
       setShake(true);
       setTimeout(() => setShake(false), 180);
     }
-  
-    // ================= HEAT =================
+
+    // HEAT UPDATE
     setHeat(prev => {
       if (result === "PERFECT") return Math.min(prev + 25, 100);
       if (result === "GOOD") return Math.min(prev + 8, 100);
       return Math.max(prev - 40, 0);
     });
-  
-    // ================= WALL SPARK =================
-    const hitLeftWall = currentLeft <= 0;
-    const hitRightWall =
-      currentLeft + last.width >= AREA_WIDTH;
-  
-    if (hitLeftWall || hitRightWall) {
-      const sparkX = hitLeftWall ? 0 : AREA_WIDTH;
-      const sparkY = last.bottom + BLOCK_HEIGHT + 8;
-  
-      triggerWallSpark(sparkX, sparkY);
-    }
-  
-    // ================= GAME OVER =================
+
+    // GAME OVER
     if (diff > last.width) {
       setGameOver(true);
       sendScore(Math.floor(score));
       return;
     }
-  
-    // ================= SCORE =================
+
+    // SCORE: 1 point * multiplier
     if (result !== "MISS") {
       setScore(prev => prev + multiplier);
     }
-  
-    // ================= ADD BLOCK =================
+
+    // ADD BLOCK
     const newWidth = last.width - diff;
     const newLeft = Math.max(currentLeft, last.left);
-  
+
     let newBlocks = [
       ...blocks,
       {
@@ -222,22 +196,24 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
         bottom: last.bottom + BLOCK_HEIGHT
       }
     ];
-  
-    // ================= SOFT CAMERA SHIFT =================
+    
+    // 🔥 SOFT CAMERA SHIFT
     const newTop = newBlocks[newBlocks.length - 1];
-  
+    
     if (newTop.bottom > SOFT_SHIFT_START) {
       const overflow = newTop.bottom - SOFT_SHIFT_START;
-  
+    
       newBlocks = newBlocks.map(b => ({
         ...b,
         bottom: b.bottom - overflow
       }));
     }
-  
+    
+
+    
+
     setBlocks(newBlocks);
   }
-  
 
   /* ================= BACKEND ================= */
   async function sendScore(finalScore) {
@@ -320,9 +296,6 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
     {judgement.text}
   </div>
 )}
-
-<div ref={wallSparkRef} className="wall-spark" />
-
 
 
         {gameOver && <div className="game-over-text">GAME OVER</div>}
