@@ -529,7 +529,7 @@ function toggleContract() {
             setWallet(wallet);
           
             setAuthOpen(false);
-            setGameOpen(true);
+          
           }}
           
         />
