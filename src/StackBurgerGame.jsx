@@ -30,6 +30,7 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
   const [multiplier, setMultiplier] = useState(1);
   const soundsRef = useRef(null);
   const audioUnlockedRef = useRef(false);
+  const sparkRef = useRef(null);
 
   
   useEffect(() => {
@@ -132,62 +133,80 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
     return "MISS";
   }
   
+  function triggerSpark(x, y) {
+    const spark = sparkRef.current;
+    if (!spark) return;
+  
+    spark.style.left = `${x}px`;
+    spark.style.bottom = `${y}px`;
+  
+    spark.classList.remove("spark-anim");
+    void spark.offsetWidth; // force reflow
+    spark.classList.add("spark-anim");
+  }
   
 
   /* ================= DROP ================= */
   function dropBlock() {
-
     const last = blocks[blocks.length - 1];
     const diff = Math.abs(currentLeft - last.left);
     const result = getJudgement(diff, last.width);
-
+  
     setJudgement({ text: result, ts: Date.now() });
-
+  
     if (result === "PERFECT") {
       soundsRef.current.perfect.currentTime = 0;
       soundsRef.current.perfect.play();
     }
-    
+  
     if (result === "GOOD") {
       soundsRef.current.good.currentTime = 0;
       soundsRef.current.good.play();
     }
-    
+  
     if (result === "MISS") {
       soundsRef.current.miss.currentTime = 0;
       soundsRef.current.miss.play();
     }
-    
-
-
+  
     if (result === "MISS") {
       setShake(true);
       setTimeout(() => setShake(false), 180);
     }
-
-    // HEAT UPDATE
+  
+    // 🔥 SPARK la impact lateral
+    if (diff > 0) {
+      const hitLeft = currentLeft < last.left;
+  
+      const sparkX = hitLeft
+        ? last.left
+        : last.left + last.width;
+  
+      const sparkY = last.bottom + BLOCK_HEIGHT;
+  
+      triggerSpark(sparkX, sparkY);
+    }
+  
+    // HEAT
     setHeat(prev => {
       if (result === "PERFECT") return Math.min(prev + 25, 100);
       if (result === "GOOD") return Math.min(prev + 8, 100);
       return Math.max(prev - 40, 0);
     });
-
-    // GAME OVER
+  
     if (diff > last.width) {
       setGameOver(true);
       sendScore(Math.floor(score));
       return;
     }
-
-    // SCORE: 1 point * multiplier
+  
     if (result !== "MISS") {
       setScore(prev => prev + multiplier);
     }
-
-    // ADD BLOCK
+  
     const newWidth = last.width - diff;
     const newLeft = Math.max(currentLeft, last.left);
-
+  
     let newBlocks = [
       ...blocks,
       {
@@ -196,24 +215,19 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
         bottom: last.bottom + BLOCK_HEIGHT
       }
     ];
-    
-    // 🔥 SOFT CAMERA SHIFT
+  
     const newTop = newBlocks[newBlocks.length - 1];
-    
     if (newTop.bottom > SOFT_SHIFT_START) {
       const overflow = newTop.bottom - SOFT_SHIFT_START;
-    
       newBlocks = newBlocks.map(b => ({
         ...b,
         bottom: b.bottom - overflow
       }));
     }
-    
-
-    
-
+  
     setBlocks(newBlocks);
   }
+  
 
   /* ================= BACKEND ================= */
   async function sendScore(finalScore) {
@@ -249,6 +263,8 @@ const SOFT_SHIFT_START = VIEW_HEIGHT * 0.35;
       
 
       <div className={`stack-area ${shake ? "shake" : ""}`}>
+      <div ref={sparkRef} className="impact-spark" />
+
         <div className="score-bar">
           <span>
             Score: {score.toFixed(1)}
