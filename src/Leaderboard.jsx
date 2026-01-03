@@ -90,20 +90,15 @@ const [countdown, setCountdown] = useState("--:--");
 
   async function loadPayoutState() {
     const res = await fetch(`${API_BASE}/api/payout-state`);
-    if (!res.ok) {
-      console.log("payout-state fetch failed");
-      return;
-    }
+    if (!res.ok) return;
   
     const data = await res.json();
-    console.log("PAYOUT STATE RESPONSE:", data);
   
     if (data?.nextRunAt && data?.serverTime) {
       setNextPayoutAt(data.nextRunAt);
       setServerOffset(data.serverTime - Date.now());
     }
   }
-  
   
 
   function formatTime(ts) {
