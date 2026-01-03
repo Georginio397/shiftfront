@@ -739,6 +739,41 @@ body.game-active .scene {
   transition: transform 0.35s ease;
 }
 
+.tv-loader {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: all;
+}
+
+.tv-spinner {
+  width: 26px;
+  height: 26px;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.tv-loading-text {
+  margin-top: 6px;
+  font-size: 11px;
+  opacity: 0.85;
+  letter-spacing: 0.5px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 
 
 

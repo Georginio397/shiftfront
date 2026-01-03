@@ -29,6 +29,8 @@ const [contractVisible, setContractVisible] = useState(false);
 const [copied, setCopied] = useState(false);
 const [wallet, setWallet] = useState("");
 const [cameraOpen, setCameraOpen] = useState(false);
+const [startingGame, setStartingGame] = useState(false);
+
 
 
 
@@ -129,22 +131,42 @@ function toggleContract() {
 
   async function handleGameClick() {
     const token = localStorage.getItem("shift_token");
+  
+    // ❌ neautentificat → auth modal
     if (!token) {
       setAuthOpen(true);
       return;
     }
   
+    // 🔄 pornim loader
+    setStartingGame(true);
+  
     try {
-      await fetch(`${process.env.REACT_APP_API_BASE}/api/start-game`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_API_BASE}/api/start-game`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+  
+      if (!res.ok) {
+        throw new Error("Start game failed");
+      }
+  
+      // ✅ backend a confirmat startul → deschidem jocul
+      setGameOpen(true);
+  
     } catch (e) {
       console.error("START GAME FAILED:", e);
+    } finally {
+      // 🔥 oprim loader indiferent de rezultat
+      setStartingGame(false);
     }
-  
-    setGameOpen(true);
   }
+  
   
 
   function playShifterSound() {
@@ -343,11 +365,15 @@ function toggleContract() {
 
 
 
-        {/* PLAY TV */}
-        <div
+{/* PLAY TV */}
+<div
   className="tv-screen"
-  onClick={handleGameClick}
+  onClick={() => {
+    if (!startingGame) handleGameClick();
+  }}
   onMouseEnter={() => {
+    if (startingGame) return;
+
     const v = gameHoverRef.current;
     if (!v) return;
 
@@ -355,34 +381,46 @@ function toggleContract() {
     v.play().catch(() => {});
   }}
   onMouseLeave={() => {
+    if (startingGame) return;
+
     const v = gameHoverRef.current;
     if (!v) return;
 
     setTimeout(() => v.pause(), 80);
   }}
+  style={{ position: "relative" }}
 >
-<video
-  className="tv-video idle"
-  src="/game.webm"
-  autoPlay
-  loop
-  muted
-  playsInline
-  data-persistent="true"
-/>
+  {/* IDLE VIDEO */}
+  <video
+    className="tv-video idle"
+    src="/game.webm"
+    autoPlay
+    loop
+    muted
+    playsInline
+    data-persistent="true"
+  />
 
-<video
-  ref={gameHoverRef}
-  className="tv-video hover"
-  src="/play.webm"
-  muted
-  loop={false}
-  playsInline
-  data-persistent="true"
-/>
+  {/* HOVER VIDEO */}
+  <video
+    ref={gameHoverRef}
+    className="tv-video hover"
+    src="/play.webm"
+    muted
+    loop={false}
+    playsInline
+    data-persistent="true"
+  />
 
-
+  {/* 🔄 LOADER OVERLAY */}
+  {startingGame && (
+    <div className="tv-loader">
+      <div className="tv-spinner" />
+      <div className="tv-loading-text">Starting shift…</div>
+    </div>
+  )}
 </div>
+
 
 
 
