@@ -34,7 +34,7 @@ const [startingGame, setStartingGame] = useState(false);
 
 
 
-const MINT_LINK = "https://launchmynft.io/collections/CWvZc3jpLuD4gUXZ4u13brwyh1GfXNA4VU8YtTbQR7Td/VE9lKalzNceeqyR8TPrT";
+const MINT_LINK = "https://launchmynft.io/collections/CWvZc3jpLuD4gUXZ4u13brwyh1GfXNA4VU8YtTbQR7Td/hgZvAOIkSzmflMyaVtIh";
 
 
 
@@ -442,7 +442,7 @@ function toggleContract() {
 
 {/* POSTER RIGHT */}
 <a
-  href="https://x.com/i/communities/1958972752079008236"
+  href="https://x.com/i/communities/2007860560184901741"
   target="_blank"
   rel="noopener noreferrer"
   className="poster-container"
